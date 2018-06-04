@@ -5,7 +5,7 @@ const keystone = require('keystone');
 const { GQC } = require('graphql-compose');
 
 const typeComposers = require('./composers');
-const addRelationships = require('./relationships');
+//const addRelationships = require('./relationships');
 const addResolvers = require('./resolvers');
 const addViewers = require('./viewers');
 
@@ -14,9 +14,9 @@ const {
 	isSelf,
 	authAccess,
 	updateSelf,
-	createSelfRelationship,
+	//createSelfRelationship,
 	updateSelfRelationship,
-	findSelfRelationship,
+	//findSelfRelationship,
 	deleteSelfRelationship,
 	createManagedRelationship,
 	deleteManagedRelationship
@@ -28,26 +28,19 @@ const {
 	PollVoteTC,
 	LocalGovernmentTC,
 	StateTC,
-  CandidateTC,
+    CandidateTC,
 	CandidateDocumentTC,
 	ViewerCandidateTC,
-	JobExperienceTC,
-	EducationTC,
-	CertificateTC,
-	RefereeTC,
-	CompanyTC,
-	CompanyMessageTC,
-	ViewerCompanyTC,
+	InstitutionTC,
+	ViewerInstitutionTC,
 	IndustryTC,
-	JobTC,
-	CaseFileTC,
-	CenterManagerTC,
-	ViewerCenterManagerTC
+	AdminTC,
+	ViewerAdminTC
 } = typeComposers;
 
 //Add relationships and resolvers to schema
 addViewers();
-addRelationships();
+//addRelationships();
 addResolvers();
 
 // console.log(CandidateDocumentTC.getInputTypeComposer().addFields({jwt: 'String'}));
@@ -73,21 +66,21 @@ addResolvers();
 //Add fields and resolvers to rootQuery
 GQC.rootQuery().addFields({
 	user: UserTC.get('$findOne'),
-	...authAccess('Candidate', {
-		viewerCandidate: ViewerCandidateTC.get('$candidateAccess')
-	}),
-	...authAccess('Company', {
-		viewerCompany: ViewerCompanyTC.get('$companyAccess'),
-		industryMany: IndustryTC.get('$findMany'),
+	//...authAccess('Candidate', {
+        viewerCandidate: ViewerCandidateTC.get('$candidateAccess'),
+	//}),
+	//...authAccess('Institution', {
+		viewerInstitution: ViewerInstitutionTC.get('$institutionAccess'),
+		//industryMany: IndustryTC.get('$findMany'),
 		// jobById: isSelf(JobTC, '$findById'),
 		// jobById: JobTC.get('$findById'),
-		companyJobById: findSelfRelationship('jobs', JobTC),
-		// companyJobsPagination: findSelfRelationship('jobs', JobTC),
-	}),
-	...authAccess('CenterManager', {
-		viewerCenterManager: ViewerCenterManagerTC.get('$centerManagerAccess'),
-		managerCandidateById: CandidateTC.get('$findById')
-	}),
+		//institutionJobById: findSelfRelationship('jobs', JobTC),
+		// institutionJobsPagination: findSelfRelationship('jobs', JobTC),
+	//}),
+	//...authAccess('Admin', {
+		viewerAdmin: ViewerAdminTC.get('$adminAccess'),
+		managerCandidateById: CandidateTC.get('$findById'),
+	//}),
 	currentTime: {
     type: 'Date',
     resolve: () => new Date().toISOString(),
@@ -99,42 +92,42 @@ GQC.rootMutation().addFields({
 	user: UserTC.get('$removeById'),
 	loginCandidate: CandidateTC.get('$loginWithPhone'),
 	signUpCandidate: CandidateTC.get('$signUp'),
-	loginCenterManager: CenterManagerTC.get('$loginWithPhone'),
-	// signUpCenterManager: CenterManagerTC.get('$signUp'),
-	loginCompany: CompanyTC.get('$loginWithEmail'),
-	signUpCompany: CompanyTC.get('$signUp'),
-	...authAccess('Candidate', {
+	loginAdmin: AdminTC.get('$loginWithPhone'),
+	// signUpAdmin: AdminTC.get('$signUp'),
+	loginInstitution: InstitutionTC.get('$loginWithEmail'),
+	signUpInstitution: InstitutionTC.get('$signUp'),
+//	...authAccess('Candidate', {
 		candidateUpdateById: updateSelf(CandidateTC),
-		addJobExperience: createSelfRelationship( 'experience', JobExperienceTC),
-		updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
-		deleteJobExperience: deleteSelfRelationship( 'experience', JobExperienceTC),
-		addEducation: createSelfRelationship( 'education', EducationTC),
-		updateEducation: updateSelfRelationship( 'education', EducationTC),
-		deleteEducation: deleteSelfRelationship( 'education', EducationTC),
-		addCertificate: createSelfRelationship( 'certificates', CertificateTC),
-		updateCertificate: updateSelfRelationship( 'certificates', CertificateTC),
-		deleteCertificate: deleteSelfRelationship( 'certificates', CertificateTC),
-		addReferee: createSelfRelationship( 'referees', RefereeTC),
-		updateReferee: updateSelfRelationship( 'referees', RefereeTC),
-		deleteReferee: deleteSelfRelationship( 'referees', RefereeTC),
-	}),
-	...authAccess('Company', {
-		companyUpdateById:updateSelf(CompanyTC),
-		addJob: createSelfRelationship( 'jobs', JobTC),
-		updateJob: updateSelfRelationship( 'jobs', JobTC),
-		deleteJob: deleteSelfRelationship( 'jobs', JobTC),
-		createCompanyMessage: CompanyMessageTC.get('$createOne')
+		//addJobExperience: createSelfRelationship( 'experience', JobExperienceTC),
+		//updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
+		//deleteJobExperience: deleteSelfRelationship( 'experience', JobExperienceTC),
+		//addEducation: createSelfRelationship( 'education', EducationTC),
+		//updateEducation: updateSelfRelationship( 'education', EducationTC),
+		//deleteEducation: deleteSelfRelationship( 'education', EducationTC),
+		//addCertificate: createSelfRelationship( 'certificates', CertificateTC),
+		//updateCertificate: updateSelfRelationship( 'certificates', CertificateTC),
+		//deleteCertificate: deleteSelfRelationship( 'certificates', CertificateTC),
+		//addReferee: createSelfRelationship( 'referees', RefereeTC),
+		//updateReferee: updateSelfRelationship( 'referees', RefereeTC),
+		//deleteReferee: deleteSelfRelationship( 'referees', RefereeTC),
+//	}),
+//	...authAccess('Institution', {
+		institutionUpdateById:updateSelf(InstitutionTC),
+		//addJob: createSelfRelationship( 'jobs', JobTC),
+		//updateJob: updateSelfRelationship( 'jobs', JobTC),
+		//deleteJob: deleteSelfRelationship( 'jobs', JobTC),
+		//createInstitutionMessage: InstitutionMessageTC.get('$createOne'),
 		// addJobExperience: createSelfRelationship( 'experience', JobExperienceTC),
 		// updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
 		// deleteJobExperience: deleteSelfRelationship( 'experience', JobExperienceTC),
-	}),
-	...authAccess('CenterManager', {
-		addCandidateDocument: createManagedRelationship( 'documentsUploaded', CandidateDocumentTC, 'Candidate'),
-		deleteCandidateDocument: deleteManagedRelationship( 'documentsUploaded', CandidateDocumentTC, 'Candidate'),
-		addCandidateCaseFile: createManagedRelationship( 'caseFiles', CaseFileTC, 'Candidate'),
+//	}),
+//	...authAccess('Admin', {
+		//addCandidateDocument: createManagedRelationship( 'documentsUploaded', CandidateDocumentTC, 'Candidate'),
+		//deleteCandidateDocument: deleteManagedRelationship( 'documentsUploaded', CandidateDocumentTC, 'Candidate'),
+		//addCandidateCaseFile: createManagedRelationship( 'caseFiles', CaseFileTC, 'Candidate'),
 		// addCandidateDocument: createSelfRelationship( 'referees', CandidateDocumentTC),
 		// deleteCandidateDocument: deleteSelfRelationship( 'referees', CandidateDocumentTC),
-	})
+//	})
 });
 
 const schema = GQC.buildSchema();

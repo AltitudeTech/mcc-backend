@@ -32,8 +32,8 @@ const jwt = require('express-jwt');
 
 const User = keystone.list('User').model;
 const Candidate = keystone.list('Candidate').model;
-const Company = keystone.list('Company').model;
-const CenterManager = keystone.list('CenterManager').model;
+const Institution = keystone.list('Institution').model;
+const Admin = keystone.list('Admin').model;
 //const JWT_SECRET = require('../config').JWT_SECRET;
 
 
@@ -42,7 +42,7 @@ exports = module.exports = function (app) {
 	//app.graphqlSchema = schema;
 
 	//Configure CORS -- Remove localhost in final version
-	var whitelist = ['http://ktt-app.herokuapp.com', 'http://localhost']
+	var whitelist = ['http://localhost']
 	var corsOptions = {
 	  origin: function (origin, callback) {
 	    if (whitelist.indexOf(origin) !== -1) {
@@ -73,10 +73,10 @@ exports = module.exports = function (app) {
 				//user: req.user ? User.findOne({ _id: req.user._id || req.user.id, version: req.user.version}) : Promise.resolve(null),
 				Candidate: req.user.type==='Candidate' ?
 					Candidate.findOne({ _id: req.user._id || req.user.id}) : Promise.resolve(null),
-				Company: req.user.type==='Company' ?
-					Company.findOne({ _id: req.user._id || req.user.id}) : Promise.resolve(null),
-				CenterManager: req.user.type==='CenterManager' ?
-					CenterManager.findOne({ _id: req.user._id || req.user.id}) : Promise.resolve(null),
+				Institution: req.user.type==='Institution' ?
+					Institution.findOne({ _id: req.user._id || req.user.id}) : Promise.resolve(null),
+				Admin: req.user.type==='Admin' ?
+					Admin.findOne({ _id: req.user._id || req.user.id}) : Promise.resolve(null),
 			}
 		}
 		return ({

@@ -13,6 +13,6 @@ Industry.add({
 	name: { type: String, required: true },
 });
 
-Industry.relationship({ ref: 'Company', path: 'Companies', refPath: 'industry' });
+Industry.relationship({ ref: 'Institution', path: 'Institutions', refPath: 'industry' });
 
 Industry.register();

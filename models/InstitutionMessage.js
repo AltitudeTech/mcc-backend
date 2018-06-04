@@ -2,35 +2,35 @@ var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
 /**
- * CompanyMessage Model
+ * InstitutionMessage Model
  * =============
  */
 
-var CompanyMessage = new keystone.List('CompanyMessage', {
+var InstitutionMessage = new keystone.List('InstitutionMessage', {
 	nocreate: true,
 	// noedit: true,*/
 	// track: true
 });
 
-CompanyMessage.add({
-  company: { type: Types.Relationship, ref: 'Company', many: false },
+InstitutionMessage.add({
+  institution: { type: Types.Relationship, ref: 'Institution', many: false },
 	title: { type: Types.Text, initial: true, required: true},
 	message: { type: Types.Textarea, initial: true, required: true },
   isClosed: { type: Boolean, default: false }
 });
 /*
-CompanyMessage.schema.pre('save', function (next) {
+InstitutionMessage.schema.pre('save', function (next) {
 	this.wasNew = this.isNew;
 	next();
 });
 
-CompanyMessage.schema.post('save', function () {
+InstitutionMessage.schema.post('save', function () {
 	if (this.wasNew) {
 		this.sendNotificationEmail();
 	}
 });
 
-CompanyMessage.schema.methods.sendNotificationEmail = function (callback) {
+InstitutionMessage.schema.methods.sendNotificationEmail = function (callback) {
 	if (typeof callback !== 'function') {
 		callback = function (err) {
 			if (err) {
@@ -44,13 +44,13 @@ CompanyMessage.schema.methods.sendNotificationEmail = function (callback) {
 		return callback(new Error('could not find mailgun credentials'));
 	}
 
-	var CompanyMessage = this;
+	var InstitutionMessage = this;
 	var brand = keystone.get('brand');
 
 	keystone.list('User').model.find().where('isAdmin', true).exec(function (err, admins) {
 		if (err) return callback(err);
 		new keystone.Email({
-			templateName: 'CompanyMessage-notification',
+			templateName: 'InstitutionMessage-notification',
 			transport: 'mailgun',
 		}).send({
 			to: admins,
@@ -58,13 +58,13 @@ CompanyMessage.schema.methods.sendNotificationEmail = function (callback) {
 				name: 'mycareerchoice-backend',
 				email: 'contact@mycareerchoice-backend.com',
 			},
-			subject: 'New CompanyMessage for mycareerchoice-backend',
-			CompanyMessage: CompanyMessage,
+			subject: 'New InstitutionMessage for mycareerchoice-backend',
+			InstitutionMessage: InstitutionMessage,
 			brand: brand,
 		}, callback);
 	});
 };*/
 
-CompanyMessage.defaultSort = '-createdAt';
-CompanyMessage.defaultColumns = 'company, title, isClosed';
-CompanyMessage.register();
+InstitutionMessage.defaultSort = '-createdAt';
+InstitutionMessage.defaultColumns = 'institution, title, isClosed';
+InstitutionMessage.register();

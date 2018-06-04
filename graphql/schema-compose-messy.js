@@ -15,8 +15,8 @@ const addViewers = require('./viewers');
 const { candidateAccess, updateCandidateRelationshipField, createAndUpdateCandidate} = require('./logic/candidate');
 
 const {
-	UserTC, PollTC, PollVoteTC, LocalGovernmentTC, StateTC,
-  CandidateTC, ViewerCandidateTC, JobExperienceTC
+	UserTC, LocalGovernmentTC, StateTC,
+  CandidateTC, ViewerCandidateTC
 } = typeComposers;
 
 //Add relationships and resolvers to schema
@@ -47,7 +47,7 @@ GQC.rootMutation().addFields({
 	loginCandidate: CandidateTC.get('$loginWithPhone'),
 	...candidateAccess({
 		candidateUpdateById: CandidateTC.get('$updateById'),
-		addJobExperience: createAndUpdateCandidate( 'experience', JobExperienceTC),
+		//addJobExperience: createAndUpdateCandidate( 'experience', JobExperienceTC),
 		updateJobExperience: updateCandidateRelationshipField( 'experience', JobExperienceTC),
 		// addJobExperience: createAndUpdateCandidate( 'experience', JobExperienceTC),
 		// updateJobExperience: updateCandidateRelationshipField( 'experience', JobExperienceTC),

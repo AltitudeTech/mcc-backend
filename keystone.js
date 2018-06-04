@@ -46,14 +46,15 @@ keystone.set('routes', require('./routes'));
 
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
-	candidates: ['Candidate', 'Education', 'JobExperience', 'Referee', 'Certificate' ],
-	CandidateDocuments: ['CandidateDocument', 'SkillAnalysisResult', 'SeekerResult', 'StartupResult'],
-	Companies: ['CompanyMessage', 'Company', 'Industry', 'Job'],
-	CenterManager: 'CenterManager',
-	poll: ['Poll', 'PollVote'],
+	candidates: ['Candidate' ],
+	//CandidateDocuments: ['CandidateDocument', 'SkillAnalysisResult', 'SeekerResult', 'StartupResult'],
+	Institutions: ['Institution', 'Industry'],
+	Admin: 'Admin',
+	//poll: ['Poll', 'PollVote'],
 	country: ['State', 'LocalGovernment'],
 	//posts: ['posts', 'post-categories'],
 	//galleries: 'galleries',
+	Ictdatas : ['Ictdata'],
 	enquiries: 'enquiries',
 	users: 'users',
 });
@@ -63,7 +64,7 @@ keystone.set('cloudinary config', process.env.CLOUDINARY_URL );
 
 // Start Keystone to connect to your database and initialise the web server
 
-
+console.log(process.env.MAILGUN_API_KEY)
 if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
 	console.log('----------------------------------------'
 	+ '\nWARNING: MISSING MAILGUN CREDENTIALS'

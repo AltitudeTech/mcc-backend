@@ -1,9 +1,9 @@
 const candidateResolvers = require('./candidate')
-const companyResolvers = require('./company')
-const CenterManagerResolvers = require('./centerManager')
+const institutionResolvers = require('./institution')
+const AdminResolvers = require('./admin')
 
 module.exports = addResolvers = () => {
   candidateResolvers();
-  companyResolvers();
-  CenterManagerResolvers();
+  institutionResolvers();
+  AdminResolvers();
 }

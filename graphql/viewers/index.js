@@ -1,9 +1,9 @@
 const candidateViewer = require('./candidate');
-const companyViewer = require('./company');
-const centerManagerViewer = require('./centerManager');
+const institutionViewer = require('./institution');
+const adminViewer = require('./admin');
 
 const addViewers = module.exports = () => {
   candidateViewer();
-  companyViewer();
-  centerManagerViewer();
+  institutionViewer();
+  adminViewer();
 };

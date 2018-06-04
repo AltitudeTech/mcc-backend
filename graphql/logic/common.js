@@ -90,31 +90,31 @@ const findSelfRelationship = exports.findSelfRelationship = ( field, TC ) => {
 }
 
 //Create and add id of relationship document to the sourceUser/Self
-const createSelfRelationship = exports.createSelfRelationship =  ( field, TC ) => {
-	return TC.get('$createOne').wrapResolve(next => async (rp) => {
-		//get sourceUser from resolveParams (rp)
-		const { sourceUser, sourceType } = rp
-		if (sourceUser) {
-			const _field = sourceUser[field]
-			if (Array.isArray(_field)) {
-				//add field to db and get result of createOne resolver
-				rp.args.record.owner = sourceUser._id;
-				const result = await next(rp);
-				sourceUser[field].push(result.recordId);
-				try {
-					await sourceUser.save();
-					return result;
-				} catch (e) {
-					//Placeholder function to stop the field from saving to the db
-					result.record.remove().exec();
-					throw new Error(`Unexpected error adding the document to ${sourceType.toLowerCase()}`);
-				}
-			} else {
-				throw new Error(`Field: ${field} is not a collection`);
-			}
-		}
-	});
-}
+// const createSelfRelationship = exports.createSelfRelationship =  ( field, TC ) => {
+// 	return TC.get('$createOne').wrapResolve(next => async (rp) => {
+// 		//get sourceUser from resolveParams (rp)
+// 		const { sourceUser, sourceType } = rp
+// 		if (sourceUser) {
+// 			const _field = sourceUser[field]
+// 			if (Array.isArray(_field)) {
+// 				//add field to db and get result of createOne resolver
+// 				rp.args.record.owner = sourceUser._id;
+// 				const result = await next(rp);
+// 				sourceUser[field].push(result.recordId);
+// 				try {
+// 					await sourceUser.save();
+// 					return result;
+// 				} catch (e) {
+// 					//Placeholder function to stop the field from saving to the db
+// 					result.record.remove().exec();
+// 					throw new Error(`Unexpected error adding the document to ${sourceType.toLowerCase()}`);
+// 				}
+// 			} else {
+// 				throw new Error(`Field: ${field} is not a collection`);
+// 			}
+// 		}
+// 	});
+// }
 
 const updateSelfRelationship = exports.updateSelfRelationship = ( field, TC ) => {
 	return TC.get('$updateById').wrapResolve(next => async (rp) => {
@@ -281,27 +281,27 @@ const deleteManagedRelationship = exports.deleteManagedRelationship =  ( field, 
 	});
 }
 
-const createModelRelationship = exports.createModelRelationship =  ( field, TC ) => {
-	return TC.get('$createOne').wrapResolve(next => async (rp) => {
-		//get sourceUser from resolveParams (rp)
-		const { sourceUser, sourceType } = rp
-		if (sourceUser) {
-			const _field = sourceUser[field]
-			if (Array.isArray(_field)) {
-				//add field to db and get result of createOne resolver
-				const result = await next(rp);
-				sourceUser[field].push(result.recordId);
-				try {
-					await sourceUser.save();
-					return result;
-				} catch (e) {
-					//Placeholder function to stop the field from saving to the db
-					result.record.remove().exec();
-					throw new Error(`Unexpected error adding the document to ${sourceType.toLowerCase()}`);
-				}
-			} else {
-				throw new Error(`Field: ${field} is not a collection`);
-			}
-		}
-	});
-}
+// const createModelRelationship = exports.createModelRelationship =  ( field, TC ) => {
+// 	return TC.get('$createOne').wrapResolve(next => async (rp) => {
+// 		//get sourceUser from resolveParams (rp)
+// 		const { sourceUser, sourceType } = rp
+// 		if (sourceUser) {
+// 			const _field = sourceUser[field]
+// 			if (Array.isArray(_field)) {
+// 				//add field to db and get result of createOne resolver
+// 				const result = await next(rp);
+// 				sourceUser[field].push(result.recordId);
+// 				try {
+// 					await sourceUser.save();
+// 					return result;
+// 				} catch (e) {
+// 					//Placeholder function to stop the field from saving to the db
+// 					result.record.remove().exec();
+// 					throw new Error(`Unexpected error adding the document to ${sourceType.toLowerCase()}`);
+// 				}
+// 			} else {
+// 				throw new Error(`Field: ${field} is not a collection`);
+// 			}
+// 		}
+// 	});
+// }

@@ -60,10 +60,10 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 		}).send({
 			to: admins,
 			from: {
-				name: 'mycareerchoice-backend',
-				email: 'contact@mycareerchoice-backend.com',
+				name: 'Ktt-Backend',
+				email: 'contact@ktt-backend.com',
 			},
-			subject: 'New Enquiry for mycareerchoice-backend',
+			subject: 'New Enquiry for Ktt-Backend',
 			enquiry: enquiry,
 			brand: brand,
 		}, callback);

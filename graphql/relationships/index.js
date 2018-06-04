@@ -1,11 +1,9 @@
-// const stateRel = require('./state');
-const pollRel = require('./poll');
-const candidateRel = require('./candidate');
-const companyRel = require('./company');
+// // const stateRel = require('./state');
+// const candidateRel = require('./candidate');
+// const institutionRel = require('./institution');
 
-const addRelationships = module.exports = () => {
-  // stateRel();
-  pollRel();
-  candidateRel();
-  companyRel();
-};
+// const addRelationships = module.exports = () => {
+//   // stateRel();
+//   candidateRel();
+//   institutionRel();
+// };
