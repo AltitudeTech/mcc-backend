@@ -91,7 +91,7 @@ module.exports = () => {
     resolve: async ({ args, context }) => {
       // console.log('candidate activate ----');
       const { code } = args;
-      jwt.verify(code, process.env.ACTIVATE_JWT_SECRET, (err, data)=>{
+      jwt.verify(code, process.env.ACTIVATION_JWT_SECRET, (err, data)=>{
         if (err) {
           console.log('asdasdsadasdasd');
           throw err;
