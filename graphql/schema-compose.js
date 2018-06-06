@@ -66,25 +66,25 @@ addResolvers();
 //Add fields and resolvers to rootQuery
 GQC.rootQuery().addFields({
 	user: UserTC.get('$findOne'),
-	//...authAccess('Candidate', {
+	...authAccess('Candidate', {
         viewerCandidate: ViewerCandidateTC.get('$candidateAccess'),
-	//}),
-	//...authAccess('Institution', {
+	}),
+	...authAccess('Institution', {
 		viewerInstitution: ViewerInstitutionTC.get('$institutionAccess'),
 		//industryMany: IndustryTC.get('$findMany'),
 		// jobById: isSelf(JobTC, '$findById'),
 		// jobById: JobTC.get('$findById'),
 		//institutionJobById: findSelfRelationship('jobs', JobTC),
 		// institutionJobsPagination: findSelfRelationship('jobs', JobTC),
-	//}),
-	//...authAccess('Admin', {
+	}),
+	...authAccess('Admin', {
 		viewerAdmin: ViewerAdminTC.get('$adminAccess'),
 		managerCandidateById: CandidateTC.get('$findById'),
-	//}),
+	}),
 	currentTime: {
-    type: 'Date',
-    resolve: () => new Date().toISOString(),
-  },
+		type: 'Date',
+		resolve: () => new Date().toISOString(),
+	},
 });
 
 //Add fields and resolvers to rootQuery

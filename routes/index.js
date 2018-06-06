@@ -90,6 +90,13 @@ exports = module.exports = function (app) {
 	// Views
 	app.get('/admin', (req, res) => {res.redirect('/keystone')});
 	app.get('/', (req, res) => {res.redirect('/keystone')});
+	app.get('/testmail', (req, res) => {
+		keystone.list('Ictdata').model.find({"Email":{$ne:null}}).exec(function (err, people) {
+			people.forEach(person=>person.sendTestEmail());
+			res.json(people.map(person=>person.Email))
+			//people.sendTestEmail();
+		});
+	});
 
 	//routes for testing in development
 	if (process.env.NODE_ENV == 'development') {

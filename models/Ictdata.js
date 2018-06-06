@@ -73,7 +73,42 @@ Ictdata.schema.pre('save', function (next) {
 	}
 });
 
+Ictdata.schema.methods.sendTestEmail = function (callback) {
+	if (typeof callback !== 'function') {
+		callback = function (err) {
+			if (err) {
+				console.error('There was an error sending the notification email:', err);
+			}
+		};
+	}
 
+	if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
+		console.log('Unable to send email - no mailgun credentials provided');
+		return callback(new Error('could not find mailgun credentials'));
+	}
+
+	var person = this;
+	var brand = 'My Career Choice';
+	// var brand = keystone.get('brand');
+
+  new keystone.Email({
+    templateName: 'test-email1',
+    transport: 'mailgun',
+  }).send({
+    to: [person.Email],
+    from: {
+      name: 'MCC',
+      email: 'info@mycarrerchoice.global',
+    },
+    subject: 'Test email for mcc',
+    person: person,
+    brand: brand,
+  }, callback);
+	// keystone.list('User').model.find().where('isAdmin', true).exec(function (err, admins) {
+	// 	if (err) return callback(err);
+		
+	// });
+};
 
 /**
  * Registration

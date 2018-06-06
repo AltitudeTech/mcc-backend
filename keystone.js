@@ -64,7 +64,6 @@ keystone.set('cloudinary config', process.env.CLOUDINARY_URL );
 
 // Start Keystone to connect to your database and initialise the web server
 
-console.log(process.env.MAILGUN_API_KEY)
 if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
 	console.log('----------------------------------------'
 	+ '\nWARNING: MISSING MAILGUN CREDENTIALS'
