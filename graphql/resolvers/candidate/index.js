@@ -91,11 +91,12 @@ module.exports = () => {
     resolve: async ({ args, context }) => {
       // console.log('candidate activate ----');
       const { code } = args;
-      jwt.verify(code, process.env.JWT_SECRET, (err, {id, createdAt})=>{
+      jwt.verify(code, process.env.ACTIVATE_JWT_SECRET, (err, data)=>{
         if (err) {
           console.log('asdasdsadasdasd');
           throw err;
         } else {
+          const { id, createdAt } = data;
           if (id) {
             if (moment(createdAt).isAfter(moment().subtract(24, 'hours'))) {
               return Candidate.findByIdAndUpdate(id, {isVerified: true}).then(candidate=>{
@@ -118,35 +119,6 @@ module.exports = () => {
             return new Error('invalid token')
           }
         }
-      })
-
-      return Candidate.findOne({email}).then((existing) => {
-        if (!existing) {
-          // hash password and create user
-          const newCandidate = new Candidate({
-            email,
-            password: password,
-            name: {
-              first: firstName,
-              last: lastName
-            }
-          })
-          return newCandidate.save().then((candidate)=>{
-            const { id, email } = candidate;
-            const token = jwt.sign({
-              id: candidate.id,
-              //email: candidate.email,
-              email: candidate.email,
-              type: 'Candidate',
-              //passwordVersion: candidate.passwordVersion,
-            }, process.env.JWT_SECRET);
-            // console.log('-----' + candidate.password);
-            candidate.jwt = token;
-            context.candidate = Promise.resolve(candidate);
-            return candidate;
-          })
-        }
-        return Promise.reject('email already Exists');
       })
     },
   })
