@@ -29,9 +29,9 @@ staffOptions = [
 Institution.add({
 	name: { type: String, required: true, index: true },
 	email: { type: Types.Email, initial: true, index: true, required: true, unique: true, sparse: true },
-	cacRegNo: { type: Types.Text, initial: true, index: true, required: true, unique: true, sparse: true },
+	// cacRegNo: { type: Types.Text, initial: true, index: true, required: true, unique: true, sparse: true },
 	phone: { type: Types.Text, initial: true, index: true },
-	logoUrl: { type: Types.Text, initial: true },
+	// logoUrl: { type: Types.Text, initial: true },
 	website: { type: Types.Text, initial: true },
 	address: { type: Types.Text, initial: true },
 	stateOfResidence: {type: Types.Select, options: STATES, index: true},
@@ -66,7 +66,7 @@ Institution.schema.pre('save', function (next) {
 	} else {
 		next();
 	}
-	console.log(this);
+	// console.log(this);
 });
 
 /**
