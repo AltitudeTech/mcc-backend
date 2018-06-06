@@ -72,6 +72,7 @@ GQC.rootMutation().addFields({
 	user: UserTC.get('$removeById'),
 	loginCandidate: CandidateTC.get('$loginWithEmail'),
 	signUpCandidate: CandidateTC.get('$signUp'),
+	activateCandidate: CandidateTC.get('$activateAccount'),
 	loginInstitution: InstitutionTC.get('$loginWithEmail'),
 	signUpInstitution: InstitutionTC.get('$signUp'),
 	loginAdmin: AdminTC.get('$loginWithPhone'),
