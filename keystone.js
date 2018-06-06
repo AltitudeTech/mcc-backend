@@ -12,7 +12,7 @@ const keystone = require('keystone');
 keystone.init({
 	'name': 'mycareerchoice-backend',
 	'brand': 'mycareerchoice-backend',
-
+	'cookie secret': process.env.COOKIE_SECRET,
 	'less': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
@@ -64,7 +64,6 @@ keystone.set('cloudinary config', process.env.CLOUDINARY_URL );
 
 // Start Keystone to connect to your database and initialise the web server
 
-console.log(process.env.MAILGUN_API_KEY)
 if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
 	console.log('----------------------------------------'
 	+ '\nWARNING: MISSING MAILGUN CREDENTIALS'
