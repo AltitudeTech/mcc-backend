@@ -45,11 +45,11 @@ module.exports = () => {
     kind: 'mutation',
     name: 'signUp',
     description: 'signUp a candidate',
-    args: {firstName: 'String!', lastName: 'String!', email: 'String!', password: 'String!'},
+    args: {firstName: 'String!', lastName: 'String!', email: 'String!', phone: 'String!' ,password: 'String!'},
     type: CandidateTC,
     resolve: async ({ args, context }) => {
       // console.log('candidate signUp this ----');
-      const { firstName, lastName, email, password } = args;
+      const { firstName, lastName, email, phone, password } = args;
 
       return Candidate.findOne({email}).then((existing) => {
         if (!existing) {
@@ -57,6 +57,7 @@ module.exports = () => {
           const newCandidate = new Candidate({
             email,
             password: password,
+            phone: phone,
             name: {
               first: firstName,
               last: lastName

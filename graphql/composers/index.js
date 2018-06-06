@@ -32,8 +32,7 @@ const CandidateTCOptions = {
     updateById: {
       record: {
         removeFields: [
-          'phone', 'result', 'category', 'password',
-          'passwordVersion'
+          'phone', 'password','passwordVersion'
         ]
       }
     }
@@ -49,8 +48,7 @@ const AdminTCOptions = {
     updateById: {
       record: {
         removeFields: [
-          'phone', 'result', 'category', 'password',
-          'passwordVersion'
+          'phone', 'password', 'passwordVersion'
         ]
       }
     }
