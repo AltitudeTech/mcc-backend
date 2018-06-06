@@ -94,12 +94,11 @@ module.exports = () => {
       const { code } = args;
       jwt.verify(code, process.env.ACTIVATION_JWT_SECRET, (err, data)=>{
         if (err) {
-          console.log('asdasdsadasdasd');
           throw err;
         } else {
           const { id, createdAt } = data;
           if (id) {
-            if (moment(createdAt).isAfter(moment().subtract(24, 'hours'))) {
+            if (!moment(createdAt).isAfter(moment().subtract(24, 'hours'))) {
               return Candidate.findByIdAndUpdate(id, {isVerified: true}).then(candidate=>{
                 const { id, email } = candidate;
                 const token = jwt.sign({
