@@ -14,10 +14,11 @@ Candidate.schema.set('usePushEach', true);
 
 Candidate.add({
 	name: { type: Types.Name, required: true, index: true },
-	phone: { type: Types.Text, initial: true, required: true, unique: true},
-	email: { type: Types.Email, initial: true, required: false, unique: true, index: true, sparse: true },
+	phone: { type: Types.Text, initial: true, required: true, unique: true },
+	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
 	password: { type: Types.Password, initial: true, required: true },
-	passwordVersion: { type: Types.Text, initial: false, required: true, default: 1}
+	passwordVersion: { type: Types.Text, initial: false, required: true, default: 1 },
+	isVerified: { type: Boolean, default: false }
 }// , 'Details', {
 // 	address: { type: Types.Text },
 // 	stateOfResidence: {type: Types.Select, options: STATES},
@@ -86,5 +87,5 @@ Candidate.schema.pre('save', function (next) {
 /**
  * Registration
  */
-Candidate.defaultColumns = 'name, phone, email, category';
+Candidate.defaultColumns = 'name, phone, email';
 Candidate.register();

@@ -8,11 +8,10 @@ module.exports = () => {
   InstitutionTC.addResolver({
     kind: 'mutation',
     name: 'loginWithEmail',
-    description: 'login a institution',
+    description: 'login an institution',
     args: {email: 'String!', password: 'String!'},
     type: InstitutionTC,
     resolve: async ({ args, context }) => {
-      console.log(' login this ----');
       const { email, password } = args;
       //console.log(context);
       return Institution.findOne({email}).then((institution) => {
@@ -23,10 +22,9 @@ module.exports = () => {
               // create jwt
               const token = jwt.sign({
                 id: institution.id,
-                //email: institution.email,
                 email: institution.email,
                 type: 'Institution',
-                //passwordVersion: institution.passwordVersion,
+                passwordVersion: institution.passwordVersion,
               }, process.env.JWT_SECRET);
               institution.jwt = token;
               context.institution = Promise.resolve(institution);
@@ -44,11 +42,11 @@ module.exports = () => {
     kind: 'mutation',
     name: 'signUp',
     description: 'signUp a institution',
-    args: {name: 'String!', email: 'String!', cacRegNo: 'String!', password: 'String!'},
+    args: {name: 'String!', email: 'String!', password: 'String!'},
     type: InstitutionTC,
     resolve: async ({ args, context }) => {
       // console.log('institution signUp this ----');
-      const { name, email, cacRegNo, password } = args;
+      const { name, email, password } = args;
 
       return Institution.findOne({email}).then((existing) => {
         if (!existing) {
@@ -56,7 +54,6 @@ module.exports = () => {
           const newInstitution = new Institution({
             name,
             email,
-            cacRegNo,
             password
           })
           return newInstitution.save().then((institution)=>{
@@ -65,9 +62,8 @@ module.exports = () => {
               id: institution.id,
               email: institution.email,
               type: 'Institution',
-              //passwordVersion: institution.passwordVersion,
+              passwordVersion: institution.passwordVersion,
             }, process.env.JWT_SECRET);
-            // console.log('-----' + institution.password);
             institution.jwt = token;
             context.institution = Promise.resolve(institution);
             return institution;

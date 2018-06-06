@@ -8,6 +8,7 @@ var Types = keystone.Field.Types;
 
 var InstitutionMessage = new keystone.List('InstitutionMessage', {
 	nocreate: true,
+	map: { name: "title" }
 	// noedit: true,*/
 	// track: true
 });

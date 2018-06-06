@@ -43,26 +43,6 @@ addViewers();
 //addRelationships();
 addResolvers();
 
-// console.log(CandidateDocumentTC.getInputTypeComposer().addFields({jwt: 'String'}));
-// console.log(CandidateDocumentTC.getInputTypeComposer().getFields());
-// const FileITC = InputTypeComposer.create({
-// 	name: 'File',
-// 	fields: {
-// 		lastModified: 'Int',
-// 		name: 'String',
-// 		pre
-// 	}
-// });
-// console.log(CandidateDocumentTC.get('$createOne').addArgs({
-// 	itemId: 'String',
-// 	modelType: 'String',
-// 	// file: FileITC
-// }).getArgs());
-// console.log(CandidateDocumentTC.get('$createOne').addArgs({
-// 	itemId: 'String',
-// 	modelType: 'String'
-// }));
-
 //Add fields and resolvers to rootQuery
 GQC.rootQuery().addFields({
 	user: UserTC.get('$findOne'),
@@ -90,13 +70,13 @@ GQC.rootQuery().addFields({
 //Add fields and resolvers to rootQuery
 GQC.rootMutation().addFields({
 	user: UserTC.get('$removeById'),
-	loginCandidate: CandidateTC.get('$loginWithPhone'),
+	loginCandidate: CandidateTC.get('$loginWithEmail'),
 	signUpCandidate: CandidateTC.get('$signUp'),
-	loginAdmin: AdminTC.get('$loginWithPhone'),
-	// signUpAdmin: AdminTC.get('$signUp'),
 	loginInstitution: InstitutionTC.get('$loginWithEmail'),
 	signUpInstitution: InstitutionTC.get('$signUp'),
-//	...authAccess('Candidate', {
+	loginAdmin: AdminTC.get('$loginWithPhone'),
+	// signUpAdmin: AdminTC.get('$signUp'),
+	...authAccess('Candidate', {
 		candidateUpdateById: updateSelf(CandidateTC),
 		//addJobExperience: createSelfRelationship( 'experience', JobExperienceTC),
 		//updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
@@ -110,9 +90,9 @@ GQC.rootMutation().addFields({
 		//addReferee: createSelfRelationship( 'referees', RefereeTC),
 		//updateReferee: updateSelfRelationship( 'referees', RefereeTC),
 		//deleteReferee: deleteSelfRelationship( 'referees', RefereeTC),
-//	}),
+	}),
 //	...authAccess('Institution', {
-		institutionUpdateById:updateSelf(InstitutionTC),
+		// institutionUpdateById:updateSelf(InstitutionTC),
 		//addJob: createSelfRelationship( 'jobs', JobTC),
 		//updateJob: updateSelfRelationship( 'jobs', JobTC),
 		//deleteJob: deleteSelfRelationship( 'jobs', JobTC),
@@ -132,13 +112,3 @@ GQC.rootMutation().addFields({
 
 const schema = GQC.buildSchema();
 module.exports = schema;
-
-/*
-var fs = require('fs');
-fs.writeFile("./graphql/schema.txt", JSON.stringify(schema, null, 2), function(err) {
-    if(err) {
-        return console.log(err);
-    }
-    console.log("\nThe schema was saved to schema.json!");
-});
-*/
