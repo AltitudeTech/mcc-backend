@@ -99,7 +99,7 @@ module.exports = () => {
         } else {
           const { id, createdAt } = data;
           if (id) {
-            if (moment(createdAt).isAfter(moment().subtract(24, 'hours'))) {
+            if (!moment(createdAt).isAfter(moment().subtract(24, 'hours'))) {
               return Candidate.findByIdAndUpdate(id, {isVerified: true}).then(candidate=>{
                 const { id, email } = candidate;
                 const token = jwt.sign({
