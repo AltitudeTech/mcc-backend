@@ -12,7 +12,7 @@ const keystone = require('keystone');
 keystone.init({
 	'name': 'mycareerchoice-backend',
 	'brand': 'mycareerchoice-backend',
-
+	'cookie secret': process.env.COOKIE_SECRET,
 	'less': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
