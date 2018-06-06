@@ -94,7 +94,6 @@ module.exports = () => {
       const { code } = args;
       jwt.verify(code, process.env.ACTIVATION_JWT_SECRET, (err, data)=>{
         if (err) {
-          console.log('asdasdsadasdasd');
           throw err;
         } else {
           const { id, createdAt } = data;
