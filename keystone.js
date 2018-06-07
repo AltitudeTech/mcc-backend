@@ -11,7 +11,7 @@ const keystone = require('keystone');
 
 keystone.init({
 	'name': 'mycareerchoice-backend',
-	'brand': 'mycareerchoice-backend',
+	'brand': 'My Career Choice',
 	'less': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
