@@ -113,7 +113,7 @@ Candidate.schema.methods.sendActivationLink = function (callback) {
 		id: this._id,
 		createdAt: Date.now(),
 	}, process.env.ACTIVATION_JWT_SECRET);
-	const activationLink = `https://david-pc:3000/activate?code=${code}`
+	const activationLink = `http://localhost:3000/activate?code=${code}`
 
   new keystone.Email({
     templateName: 'activate-account',
