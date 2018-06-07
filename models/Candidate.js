@@ -88,6 +88,11 @@ Candidate.schema.post('save', function () {
 
 // Methods
 Candidate.schema.methods.sendActivationLink = function (callback) {
+	if (this.isActivated) {
+		console.log('Account is already activated');
+		return callback(new Error('Account is already activated'));
+	}
+
 	if (typeof callback !== 'function') {
 		callback = function (err) {
 			if (err) {
@@ -108,7 +113,7 @@ Candidate.schema.methods.sendActivationLink = function (callback) {
 		id: this._id,
 		createdAt: Date.now(),
 	}, process.env.ACTIVATION_JWT_SECRET);
-	const activationLink = `http://david-pc:3000/activate?code=${code}`
+	const activationLink = `https://david-pc:3000/activate?code=${code}`
 
   new keystone.Email({
     templateName: 'activate-account',
