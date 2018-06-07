@@ -46,10 +46,13 @@ addResolvers();
 //Add fields and resolvers to rootQuery
 GQC.rootQuery().addFields({
 	user: UserTC.get('$findOne'),
-	...authAccess('Candidate', {
+	...authAccess({userType: 'Candidate'}, {
         viewerCandidate: ViewerCandidateTC.get('$candidateAccess'),
 	}),
-	...authAccess('Institution', {
+	...authAccess({userType: 'Candidate', isActivated: true}, {
+        isActivatedViewerCandidate: ViewerCandidateTC.get('$candidateAccess'),
+	}),
+	...authAccess({userType: 'Institution'}, {
 		viewerInstitution: ViewerInstitutionTC.get('$institutionAccess'),
 		//industryMany: IndustryTC.get('$findMany'),
 		// jobById: isSelf(JobTC, '$findById'),
@@ -57,7 +60,7 @@ GQC.rootQuery().addFields({
 		//institutionJobById: findSelfRelationship('jobs', JobTC),
 		// institutionJobsPagination: findSelfRelationship('jobs', JobTC),
 	}),
-	...authAccess('Admin', {
+	...authAccess({userType: 'Admin'}, {
 		viewerAdmin: ViewerAdminTC.get('$adminAccess'),
 		managerCandidateById: CandidateTC.get('$findById'),
 	}),
@@ -77,7 +80,7 @@ GQC.rootMutation().addFields({
 	signUpInstitution: InstitutionTC.get('$signUp'),
 	loginAdmin: AdminTC.get('$loginWithPhone'),
 	// signUpAdmin: AdminTC.get('$signUp'),
-	...authAccess('Candidate', {
+	...authAccess({userType: 'Candidate'}, {
 		candidateUpdateById: updateSelf(CandidateTC),
 		//addJobExperience: createSelfRelationship( 'experience', JobExperienceTC),
 		//updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
@@ -92,7 +95,7 @@ GQC.rootMutation().addFields({
 		//updateReferee: updateSelfRelationship( 'referees', RefereeTC),
 		//deleteReferee: deleteSelfRelationship( 'referees', RefereeTC),
 	}),
-//	...authAccess('Institution', {
+//	...authAccess({userType: 'Institution'}, {
 		// institutionUpdateById:updateSelf(InstitutionTC),
 		//addJob: createSelfRelationship( 'jobs', JobTC),
 		//updateJob: updateSelfRelationship( 'jobs', JobTC),
@@ -102,7 +105,7 @@ GQC.rootMutation().addFields({
 		// updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
 		// deleteJobExperience: deleteSelfRelationship( 'experience', JobExperienceTC),
 //	}),
-//	...authAccess('Admin', {
+//	...authAccess({userType: 'Admin'}, {
 		//addCandidateDocument: createManagedRelationship( 'documentsUploaded', CandidateDocumentTC, 'Candidate'),
 		//deleteCandidateDocument: deleteManagedRelationship( 'documentsUploaded', CandidateDocumentTC, 'Candidate'),
 		//addCandidateCaseFile: createManagedRelationship( 'caseFiles', CaseFileTC, 'Candidate'),
