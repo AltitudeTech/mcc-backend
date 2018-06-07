@@ -1,23 +1,28 @@
 const keystone = require('keystone');
 
-const authAccess = exports.authAccess = (sourceType, resolvers) => {
+const authAccess = exports.authAccess = (options = {}, resolvers) => {
+	const { userType, isActivated = false } = options;
 	Object.keys(resolvers).forEach((k) => {
 		resolvers[k] = resolvers[k].wrapResolve(next => async (rp) => {
 			//const { source, args, context, info } = resolveParams = rp
 			try {
-				const sourceUser = await rp.context[sourceType]; //eg rp.context.Candidate
-				if (!sourceUser){
-					console.log('Unauthorized request');
-					throw new Error(`You must be signed in as a ${sourceType.toLowerCase()} to have access to this action.`)
-				}
-				if (!sourceType){
-					//console.log('Unauthorized request');
+				const sourceUser = await rp.context[userType]; //eg rp.context.Candidate
+				if (!userType){
 					throw new Error(`Provide a source Type for this Auth wrapper`)
+				}
+				if (!sourceUser){
+					// console.log('Unauthorized request');
+					throw new Error(`You must be signed in as a ${userType.toLowerCase()} to have access to this action.`)
+				}
+				if (isActivated){
+					if (!sourceUser.isActivated) {
+						throw new Error(`account has not been activated`)
+					}
 				}
 				//console.log('authorized');
 				//add signed-In sourceUser to the resolver parameters
 				rp.sourceUser = sourceUser || null;
-				rp.sourceType = sourceType || null;
+				rp.userType = userType || null;
 				return next(rp);
 			} catch (e) {
 				// console.log(e);
@@ -31,12 +36,12 @@ const authAccess = exports.authAccess = (sourceType, resolvers) => {
 const updateSelf = exports.updateSelf = ( TC ) => {
 	return TC.get('$updateById').wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
-		const { args, sourceUser, sourceType } = rp
+		const { args, sourceUser, userType } = rp
 		if (sourceUser._id == args.record._id){
 			const result = await next(rp);
 			return result;
 		} else {
-			throw new Error(`This ${sourceType.toLowerCase()} can only edit itself`);
+			throw new Error(`This ${userType.toLowerCase()} can only edit itself`);
 		}
 	});
 }
@@ -44,12 +49,12 @@ const updateSelf = exports.updateSelf = ( TC ) => {
 const isSelf = exports.isSelf = ( TC, resolver ) => {
 	return TC.get(resolver).wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
-		const { args, sourceUser, sourceType } = rp
+		const { args, sourceUser, userType } = rp
 		if (sourceUser._id == args.record._id){
 			const result = await next(rp);
 			return result;
 		} else {
-			throw new Error(`This ${sourceType.toLowerCase()} can only edit itself`);
+			throw new Error(`This ${userType.toLowerCase()} can only edit itself`);
 		}
 	});
 }
@@ -57,12 +62,12 @@ const isSelf = exports.isSelf = ( TC, resolver ) => {
 const containSelf = exports.containSelf = ( TC, resolver ) => {
 	return TC.get(resolver).wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
-		const { args, sourceUser, sourceType } = rp
+		const { args, sourceUser, userType } = rp
 		if (sourceUser._id == args.record._id){
 			const result = await next(rp);
 			return result;
 		} else {
-			throw new Error(`This ${sourceType.toLowerCase()} can only edit itself`);
+			throw new Error(`This ${userType.toLowerCase()} can only edit itself`);
 		}
 	});
 }
@@ -70,7 +75,7 @@ const containSelf = exports.containSelf = ( TC, resolver ) => {
 const findSelfRelationship = exports.findSelfRelationship = ( field, TC ) => {
 	return TC.get('$findById').wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
-		const { args, sourceUser, sourceType } = rp
+		const { args, sourceUser, userType } = rp
 		const _field = sourceUser[field]
 		if (Array.isArray(_field)) {
 			//check if relationship to be update is a member of _field array
@@ -80,7 +85,7 @@ const findSelfRelationship = exports.findSelfRelationship = ( field, TC ) => {
 				const result = await next(rp);
 				return result;
 			} else {
-				throw new Error(`This ${sourceType.toLowerCase()} cannot view this document`);
+				throw new Error(`This ${userType.toLowerCase()} cannot view this document`);
 			}
 		} else {
 			throw new Error(`Field: ${field} is not an collection field`);
@@ -92,7 +97,7 @@ const findSelfRelationship = exports.findSelfRelationship = ( field, TC ) => {
 // const createSelfRelationship = exports.createSelfRelationship =  ( field, TC ) => {
 // 	return TC.get('$createOne').wrapResolve(next => async (rp) => {
 // 		//get sourceUser from resolveParams (rp)
-// 		const { sourceUser, sourceType } = rp
+// 		const { sourceUser, userType } = rp
 // 		if (sourceUser) {
 // 			const _field = sourceUser[field]
 // 			if (Array.isArray(_field)) {
@@ -106,7 +111,7 @@ const findSelfRelationship = exports.findSelfRelationship = ( field, TC ) => {
 // 				} catch (e) {
 // 					//Placeholder function to stop the field from saving to the db
 // 					result.record.remove().exec();
-// 					throw new Error(`Unexpected error adding the document to ${sourceType.toLowerCase()}`);
+// 					throw new Error(`Unexpected error adding the document to ${userType.toLowerCase()}`);
 // 				}
 // 			} else {
 // 				throw new Error(`Field: ${field} is not a collection`);
@@ -118,7 +123,7 @@ const findSelfRelationship = exports.findSelfRelationship = ( field, TC ) => {
 const updateSelfRelationship = exports.updateSelfRelationship = ( field, TC ) => {
 	return TC.get('$updateById').wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
-		const { args, sourceUser, sourceType } = rp
+		const { args, sourceUser, userType } = rp
 		const _field = sourceUser[field]
 		if (Array.isArray(_field)) {
 			//check if relationship to be update is a member of _field array
@@ -128,7 +133,7 @@ const updateSelfRelationship = exports.updateSelfRelationship = ( field, TC ) =>
 				const result = await next(rp);
 				return result;
 			} else {
-				throw new Error(`This ${sourceType.toLowerCase()} cannot edit this field`);
+				throw new Error(`This ${userType.toLowerCase()} cannot edit this field`);
 			}
 		} else {
 			throw new Error(`Field: ${field} is not an collection field`);
@@ -140,7 +145,7 @@ const updateSelfRelationship = exports.updateSelfRelationship = ( field, TC ) =>
 const deleteSelfRelationship = exports.deleteSelfRelationship =  ( field, TC ) => {
 	return TC.get('$removeById').wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
-		const { args, sourceUser, sourceType } = rp
+		const { args, sourceUser, userType } = rp
 		if (sourceUser) {
 			const _field = sourceUser[field]
 			if (Array.isArray(_field)) {
@@ -157,10 +162,10 @@ const deleteSelfRelationship = exports.deleteSelfRelationship =  ( field, TC ) =
 					} catch (e) {
 						//Placeholder function to stop the field from saving to the db
 						result.record.remove().exec();
-						throw new Error(`Unexpected error adding the document to ${sourceType.toLowerCase()}`);
+						throw new Error(`Unexpected error adding the document to ${userType.toLowerCase()}`);
 					}
 				} else {
-					throw new Error(`This ${sourceType.toLowerCase()} cannot delete this document`);
+					throw new Error(`This ${userType.toLowerCase()} cannot delete this document`);
 				}
 			} else {
 				throw new Error(`Field: ${field} is not a collection`);
@@ -177,7 +182,7 @@ const createManagedRelationship = exports.createManagedRelationship =  ( field, 
 		managedModelType: 'String!'
 	}).wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
-		const { sourceUser, sourceType } = rp
+		const { sourceUser, userType } = rp
 		// const { args: { managedId, managedModelType} } = rp
 		const { args: { managedId } } = rp
 		try {
@@ -233,7 +238,7 @@ const deleteManagedRelationship = exports.deleteManagedRelationship =  ( field, 
 		managedModelType: 'String!'
 	}).wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
-		const { sourceUser, sourceType } = rp
+		const { sourceUser, userType } = rp
 		// const { args: { managedId, managedModelType, _id} } = rp
 		const { args: { managedId, _id} } = rp
 		try {
@@ -255,10 +260,10 @@ const deleteManagedRelationship = exports.deleteManagedRelationship =  ( field, 
 						} catch (e) {
 							//Placeholder function to stop the field from saving to the db
 							result.record.remove().exec();
-							return Error(`Unexpected error adding the document to ${sourceType.toLowerCase()}`);
+							return Error(`Unexpected error adding the document to ${userType.toLowerCase()}`);
 						}
 					} else {
-						return Error(`This ${sourceType.toLowerCase()} cannot delete this document`);
+						return Error(`This ${userType.toLowerCase()} cannot delete this document`);
 					}
 				} else {
 					return Error(`Field: ${field} is not a collection in ${managedModelType}`);
@@ -283,7 +288,7 @@ const deleteManagedRelationship = exports.deleteManagedRelationship =  ( field, 
 // const createModelRelationship = exports.createModelRelationship =  ( field, TC ) => {
 // 	return TC.get('$createOne').wrapResolve(next => async (rp) => {
 // 		//get sourceUser from resolveParams (rp)
-// 		const { sourceUser, sourceType } = rp
+// 		const { sourceUser, userType } = rp
 // 		if (sourceUser) {
 // 			const _field = sourceUser[field]
 // 			if (Array.isArray(_field)) {
@@ -296,7 +301,7 @@ const deleteManagedRelationship = exports.deleteManagedRelationship =  ( field, 
 // 				} catch (e) {
 // 					//Placeholder function to stop the field from saving to the db
 // 					result.record.remove().exec();
-// 					throw new Error(`Unexpected error adding the document to ${sourceType.toLowerCase()}`);
+// 					throw new Error(`Unexpected error adding the document to ${userType.toLowerCase()}`);
 // 				}
 // 			} else {
 // 				throw new Error(`Field: ${field} is not a collection`);
