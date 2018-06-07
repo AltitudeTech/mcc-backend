@@ -74,6 +74,8 @@ module.exports = () => {
                 candidate.jwt = token;
                 context.candidate = Promise.resolve(candidate);
                 return candidate;
+              }).catch((err) => {
+                return Promise.reject('Cannot create record, Please try again');
               })
             }
             return Promise.reject('Phone already Exists');
