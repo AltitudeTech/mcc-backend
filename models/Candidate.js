@@ -70,12 +70,19 @@ Candidate.add({
 
 // Model Hooks
 Candidate.schema.pre('save', function (next) {
+	this.wasNew = this.isNew;
   this.name.first = toCamelCase(this.name.first);
   this.name.last = toCamelCase(this.name.last);
   if (PHONE_REGEX.test(this.phone)){
     next();
   } else {
 		next(new Error('Invalid Phone Number'));
+	}
+});
+
+Candidate.schema.post('save', function () {
+	if (this.wasNew) {
+		this.sendActivationLink();
 	}
 });
 
