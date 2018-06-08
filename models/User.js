@@ -1,17 +1,20 @@
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
+const { STATES, GENDERS, CANDIDATE_CATEGORIES, PHONE_REGEX, toCamelCase  } = require('../lib/common');
+
 /**
  * User Model
  * ==========
  */
-var User = new keystone.List('User');
+const User = new keystone.List('User');
+User.schema.set('usePushEach', true);
 
 User.add({
 	name: { type: Types.Name, required: true, index: true },
 	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
 	password: { type: Types.Password, initial: true, required: true },
-	version: { type: Types.Text, initial: false, required: true, default: 1},
+	passwordVersion: { type: Types.Text, initial: false, required: true, default: 1},
 }, 'Permissions', {
 	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
 });
@@ -19,6 +22,23 @@ User.add({
 // Provide access to Keystone
 User.schema.virtual('canAccessKeystone').get(function () {
 	return this.isAdmin;
+});
+
+// Model Hooks
+User.schema.pre('save', function (next) {
+	// console.log('saving user');
+	this.wasNew = this.isNew;
+  this.name.first = toCamelCase(this.name.first);
+  this.name.last = toCamelCase(this.name.last);
+	if (this.phone) {
+		if (PHONE_REGEX.test(this.phone)){
+			next();
+		} else {
+			next(new Error('Invalid Phone Number'));
+		}
+	} else {
+		next();
+	}
 });
 
 
@@ -31,5 +51,5 @@ User.relationship({ ref: 'Post', path: 'posts', refPath: 'author' });
 /**
  * Registration
  */
-User.defaultColumns = 'name, email, isAdmin';
+User.defaultColumns = 'name, email, canAccessKeystone, isAdmin';
 User.register();

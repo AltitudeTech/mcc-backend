@@ -9,10 +9,9 @@ const { STATES, PHONE_REGEX, toCamelCase  } = require('../lib/common');
  * ==========
  */
 var Institution = new keystone.List('Institution', {
-	track: true
+	track: true,
+	inherits: keystone.list('User')
 });
-Institution.schema.set('usePushEach', true);
-
 
 staffOptions = [
 	{ value: "a", label: '0 - 1' },
@@ -26,13 +25,13 @@ staffOptions = [
 	{ value: "i", label: '10,000+' },
 ]
 
-Institution.add({
+Institution.add('Institution',{
 	name: { type: String, required: true, index: true },
-	email: { type: Types.Email, initial: true, index: true, required: true, unique: true, sparse: true },
 	// cacRegNo: { type: Types.Text, initial: true, index: true, required: true, unique: true, sparse: true },
-	phone: { type: Types.Text, initial: true, index: true },
+	phone: { type: Types.Text, initial: true, required: true, unique: true, sparse: true },
+	isActivated: { type: Boolean, default: false },
 	// logoUrl: { type: Types.Text, initial: true },
-	website: { type: Types.Text, initial: true },
+	website: { type: Types.Url, initial: true },
 	address: { type: Types.Text, initial: true },
 	stateOfResidence: {type: Types.Select, options: STATES, index: true},
 	description: { type: Types.Text, initial: true },
@@ -40,8 +39,6 @@ Institution.add({
 	staffSize: {type: Types.Select, options: staffOptions},
 	industry: { type: Types.Relationship, ref: 'Industry', many: false, initial: true },
 	industries: { type: Types.Relationship, ref: 'Industry', many: true, initial: true },
-	password: { type: Types.Password, initial: true, required: true },
-	passwordVersion: { type: Types.Text, initial: false, required: true, default: 1},
 });
 
 // Provide access to Keystone
@@ -57,16 +54,7 @@ Institution.add({
 
 Institution.schema.pre('save', function (next) {
   this.name = toCamelCase(this.name);
-	if (this.phone) {
-		if (PHONE_REGEX.test(this.phone)){
-			next();
-		} else {
-			next(new Error('Invalid Phone Number'));
-		}
-	} else {
-		next();
-	}
-	// console.log(this);
+	next();
 });
 
 /**

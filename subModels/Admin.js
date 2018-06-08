@@ -8,17 +8,13 @@ const { STATES, GENDERS, CANDIDATE_CATEGORIES, PHONE_REGEX, toCamelCase  } = req
  * ==========
  */
 var Admin = new keystone.List('Admin', {
-	track: true
+	track: true,
+	inherits: keystone.list('User')
 });
-Admin.schema.set('usePushEach', true);
 
-Admin.add({
-	name: { type: Types.Name, required: true, index: true },
-	phone: { type: Types.Text, initial: true, required: true, unique: true},
-	username: { type: Types.Text, initial: true, required: false, unique: true, index: true, sparse: true },
-	email: { type: Types.Email, initial: true, required: false, unique: true, index: true, sparse: true },
-	password: { type: Types.Password, initial: true, required: true },
-	passwordVersion: { type: Types.Text, initial: false, required: true, default: 1},
+Admin.add('Admin',{
+	phone: { type: Types.Text, initial: true, required: true, unique: true, sparse: true },
+	username: { type: Types.Text, initial: true, unique: true, index: true, sparse: true },
 	// category: {type: Types.Select, options: CANDIDATE_CATEGORIES}
 }, 'Details', {
 	address: { type: Types.Text },
@@ -42,13 +38,7 @@ Admin.add({
 
 // Model Hooks
 Admin.schema.pre('save', function (next) {
-  this.name.first = toCamelCase(this.name.first);
-  this.name.last = toCamelCase(this.name.last);
-  if (PHONE_REGEX.test(this.phone)){
-    next();
-  } else {
-		next(new Error('Invalid Phone Number'));
-	}
+	next();
 });
 
 /**
