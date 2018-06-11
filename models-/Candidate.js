@@ -58,15 +58,6 @@ Candidate.add({
 // 		return true;
 // 	return false;
 // });
-// Candidate.schema.virtual('testTaken').get(() => {
-// 	if (this.result.seeker && this.result.startup)
-// 		return 'both';
-// 	if (this.result.seeker)
-// 		return 'seeker';
-// 	if (this.result.startup)
-// 		return 'startup';
-// 	return 'none';
-// });
 
 // Model Hooks
 Candidate.schema.pre('save', function (next) {
