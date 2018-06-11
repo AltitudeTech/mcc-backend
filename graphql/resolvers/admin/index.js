@@ -1,5 +1,5 @@
 const keystone = require('keystone');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const { AdminTC } = require('../../composers');
 const Admin = keystone.list('Admin').model;

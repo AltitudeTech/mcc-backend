@@ -18,8 +18,17 @@ const Industry = keystone.list('Industry').model;
 * Config
 */
 const UserTCOptions = {
-  fields:{
+  fields : {
     remove: ['password', 'passwordVersion','isAdmin']
+  },
+  resolvers : {
+    updateById: {
+      record: {
+        removeFields: [
+          'phone', 'password','passwordVersion'
+        ]
+      }
+    }
   }
 };
 const CandidateTCOptions = {

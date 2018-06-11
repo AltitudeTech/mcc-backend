@@ -98,7 +98,7 @@ exports = module.exports = function (app) {
 		});
 	});
 	app.get('/testactivation', (req, res) => {
-		keystone.list('Candidate').model.find({"email":{$ne:null}}).exec(function (err, users) {
+		keystone.list('Candida').model.find({"email":{$ne:null}}).exec(function (err, users) {
 			users.forEach(user=>user.sendActivationLink());
 			res.json(users.map(user=>user.email))
 		});

@@ -1,43 +1,43 @@
 const keystone = require('keystone');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const { CandidateTC } = require('../../composers');
 const Candidate = keystone.list('Candidate').model;
 
 module.exports = () => {
-  CandidateTC.addResolver({
-    kind: 'mutation',
-    name: 'loginWithEmail',
-    description: 'login a candidate',
-    args: {email: 'String!', password: 'String!'},
-    type: CandidateTC,
-    resolve: async ({ args, context }) => {
-      // console.log('candidate login this ----');
-      const { email, password } = args;
-      return Candidate.findOne({email}).then((candidate) => {
-        if (candidate) {
-          // validate password
-          return bcrypt.compare(password, candidate.password).then((res) => {
-            if (res) {
-              // create jwt
-              const token = jwt.sign({
-                id: candidate.id,
-                email: candidate.email,
-                type: 'Candidate',
-                //passwordVersion: candidate.passwordVersion,
-              }, process.env.JWT_SECRET);
-              candidate.jwt = token;
-              context.candidate = Promise.resolve(candidate);
-              return candidate;
-            }
-            return Promise.reject('password incorrect');
-          });
-        }
-        return Promise.reject('email/candidate not found');
-      });
-    },
-  })
+  // CandidateTC.addResolver({
+  //   kind: 'mutation',
+  //   name: 'loginWithEmail',
+  //   description: 'login a candidate',
+  //   args: {email: 'String!', password: 'String!'},
+  //   type: CandidateTC,
+  //   resolve: async ({ args, context }) => {
+  //     // console.log('candidate login this ----');
+  //     const { email, password } = args;
+  //     return Candidate.findOne({email}).then((candidate) => {
+  //       if (candidate) {
+  //         // validate password
+  //         return bcrypt.compare(password, candidate.password).then((res) => {
+  //           if (res) {
+  //             // create jwt
+  //             const token = jwt.sign({
+  //               id: candidate.id,
+  //               email: candidate.email,
+  //               type: 'Candidate',
+  //               //passwordVersion: candidate.passwordVersion,
+  //             }, process.env.JWT_SECRET);
+  //             candidate.jwt = token;
+  //             context.candidate = Promise.resolve(candidate);
+  //             return candidate;
+  //           }
+  //           return Promise.reject('password incorrect');
+  //         });
+  //       }
+  //       return Promise.reject('email/candidate not found');
+  //     });
+  //   },
+  // })
 
   CandidateTC.addResolver({
     kind: 'mutation',

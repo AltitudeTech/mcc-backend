@@ -28,7 +28,7 @@ const {
 	PollVoteTC,
 	LocalGovernmentTC,
 	StateTC,
-    CandidateTC,
+  CandidateTC,
 	CandidateDocumentTC,
 	ViewerCandidateTC,
 	InstitutionTC,
@@ -73,12 +73,13 @@ GQC.rootQuery().addFields({
 //Add fields and resolvers to rootQuery
 GQC.rootMutation().addFields({
 	user: UserTC.get('$removeById'),
-	loginCandidate: CandidateTC.get('$loginWithEmail'),
+	loginUser: UserTC.get('$loginWithEmail'),
+	// loginCandidate: CandidateTC.get('$loginWithEmail'),
 	signUpCandidate: CandidateTC.get('$signUp'),
-	activateCandidate: CandidateTC.get('$activateAccount'),
-	loginInstitution: InstitutionTC.get('$loginWithEmail'),
-	signUpInstitution: InstitutionTC.get('$signUp'),
-	loginAdmin: AdminTC.get('$loginWithPhone'),
+	// activateCandidate: CandidateTC.get('$activateAccount'),
+	// loginInstitution: InstitutionTC.get('$loginWithEmail'),
+	// signUpInstitution: InstitutionTC.get('$signUp'),
+	// loginAdmin: AdminTC.get('$loginWithPhone'),
 	// signUpAdmin: AdminTC.get('$signUp'),
 	...authAccess({userType: 'Candidate'}, {
 		candidateUpdateById: updateSelf(CandidateTC),
