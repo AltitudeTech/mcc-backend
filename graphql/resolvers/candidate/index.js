@@ -1,5 +1,5 @@
 const keystone = require('keystone');
-const bcrypt = require('bcrypt-nodejs');
+// const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const { CandidateTC } = require('../../composers');
