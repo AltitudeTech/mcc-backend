@@ -40,6 +40,14 @@ module.exports = () => {
   // })
 
   CandidateTC.addResolver({
+    kind: 'query',
+    name: 'isAuthenticated',
+    description: 'returns true if candidate is authenticated',
+    type: 'Boolean',
+    resolve: () => true
+  })
+
+  CandidateTC.addResolver({
     kind: 'mutation',
     name: 'signUp',
     description: 'signUp a candidate',
