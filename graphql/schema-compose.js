@@ -47,10 +47,11 @@ addResolvers();
 GQC.rootQuery().addFields({
 	user: UserTC.get('$findOne'),
 	...authAccess({userType: 'Candidate'}, {
-        viewerCandidate: ViewerCandidateTC.get('$candidateAccess'),
+		candidateIsAuthenticated: CandidateTC.getResolver('isAuthenticated'),
+    viewerCandidate: ViewerCandidateTC.get('$candidateAccess'),
 	}),
 	...authAccess({userType: 'Candidate', isActivated: true}, {
-        isActivatedViewerCandidate: ViewerCandidateTC.get('$candidateAccess'),
+    isActivatedViewerCandidate: ViewerCandidateTC.get('$candidateAccess'),
 	}),
 	...authAccess({userType: 'Institution'}, {
 		viewerInstitution: ViewerInstitutionTC.get('$institutionAccess'),
