@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-<<<<<<< HEAD
-"@types/zen-observable@0.5.3":
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.5.3.tgz#91b728599544efbb7386d8b6633693a3c2e7ade5"
-=======
 "@babel/runtime@^7.0.0-beta.40":
   version "7.0.0-beta.49"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.49.tgz#03b3bf07eb982072c8e851dd2ddd5110282e61bf"
@@ -78,7 +73,6 @@
 "@types/node@^9.4.6":
   version "9.6.21"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.21.tgz#4563c26a53531c5aca943065fcdf2dd562f63cd4"
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
 
 JSONStream@^1.0.3:
   version "1.3.2"
@@ -123,16 +117,6 @@ accepts@~1.3.3:
     mime-types "~2.1.16"
     negotiator "0.6.1"
 
-<<<<<<< HEAD
-accepts@~1.3.4:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.5.tgz#eb777df6011723a3b14e8a72c0805c8e86746bd2"
-  dependencies:
-    mime-types "~2.1.18"
-    negotiator "0.6.1"
-
-=======
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
 accessory@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/accessory/-/accessory-1.1.0.tgz#7833e9839a32ded76d26021f36a41707a520f593"
@@ -1313,8 +1297,6 @@ body-parser@1.18.2:
     qs "6.5.1"
     raw-body "2.3.2"
     type-is "~1.6.15"
-<<<<<<< HEAD
-=======
 
 body-parser@^1.18.3:
   version "1.18.3"
@@ -1330,7 +1312,6 @@ body-parser@^1.18.3:
     qs "6.5.2"
     raw-body "2.3.3"
     type-is "~1.6.16"
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
 
 boolbase@~1.0.0:
   version "1.0.0"
@@ -3081,8 +3062,6 @@ express@4.16.1:
     etag "~1.8.1"
     finalhandler "1.1.0"
     fresh "0.5.2"
-<<<<<<< HEAD
-=======
     merge-descriptors "1.0.1"
     methods "~1.1.2"
     on-finished "~2.3.0"
@@ -3118,23 +3097,11 @@ express@^4.16.3:
     etag "~1.8.1"
     finalhandler "1.1.1"
     fresh "0.5.2"
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
     merge-descriptors "1.0.1"
     methods "~1.1.2"
     on-finished "~2.3.0"
     parseurl "~1.3.2"
     path-to-regexp "0.1.7"
-<<<<<<< HEAD
-    proxy-addr "~2.0.2"
-    qs "6.5.1"
-    range-parser "~1.2.0"
-    safe-buffer "5.1.1"
-    send "0.16.1"
-    serve-static "1.13.1"
-    setprototypeof "1.1.0"
-    statuses "~1.3.1"
-    type-is "~1.6.15"
-=======
     proxy-addr "~2.0.3"
     qs "6.5.1"
     range-parser "~1.2.0"
@@ -3144,7 +3111,6 @@ express@^4.16.3:
     setprototypeof "1.1.0"
     statuses "~1.4.0"
     type-is "~1.6.16"
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
     utils-merge "1.0.1"
     vary "~1.1.2"
 
@@ -3223,7 +3189,7 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
-fbjs@^0.8.1, fbjs@^0.8.12, fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.1, fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -3298,8 +3264,6 @@ finalhandler@1.1.0:
     on-finished "~2.3.0"
     parseurl "~1.3.2"
     statuses "~1.3.1"
-<<<<<<< HEAD
-=======
     unpipe "~1.0.0"
 
 finalhandler@1.1.1:
@@ -3312,7 +3276,6 @@ finalhandler@1.1.1:
     on-finished "~2.3.0"
     parseurl "~1.3.2"
     statuses "~1.4.0"
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
     unpipe "~1.0.0"
 
 find-parent-dir@~0.3.0:
@@ -3903,13 +3866,8 @@ hoist-non-react-statics@^1.2.0:
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
 
 hoist-non-react-statics@^2.1.0, hoist-non-react-statics@^2.2.1:
-<<<<<<< HEAD
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.0.tgz#d2ca2dfc19c5a91c5a6615ce8e564ef0347e2a40"
-=======
   version "2.5.4"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.4.tgz#fc3b1ac05d2ae3abedec84eba846511b0d4fcc4f"
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -3978,11 +3936,7 @@ http-errors@1.6.2:
     setprototypeof "1.0.3"
     statuses ">= 1.3.1 < 2"
 
-<<<<<<< HEAD
-http-errors@~1.6.2:
-=======
 http-errors@1.6.3, http-errors@~1.6.2, http-errors@~1.6.3:
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.6.3.tgz#8b55680bb4be283a0b5bf4ea2e38580be1d9320d"
   dependencies:
@@ -4810,15 +4764,12 @@ keystone@4.0.0-beta.8:
     vkey "1.0.1"
     watchify "3.9.0"
     xhr "2.4.0"
-<<<<<<< HEAD
-=======
 
 keyv@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-3.0.0.tgz#44923ba39e68b12a7cec7df6c3268c031f2ef373"
   dependencies:
     json-buffer "3.0.0"
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
@@ -4846,11 +4797,7 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-<<<<<<< HEAD
-"knox@github:keystonejs/knox":
-=======
 knox@keystonejs/knox:
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
   version "0.9.2"
   resolved "https://codeload.github.com/keystonejs/knox/tar.gz/170c579ae8c0f7268d73dae77a6455f5c962d530"
   dependencies:
@@ -6076,9 +6023,6 @@ prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-<<<<<<< HEAD
-proxy-addr@~2.0.2:
-=======
 protobufjs@^6.8.6:
   version "6.8.6"
   resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.8.6.tgz#ce3cf4fff9625b62966c455fc4c15e4331a11ca2"
@@ -6098,7 +6042,6 @@ protobufjs@^6.8.6:
     long "^4.0.0"
 
 proxy-addr@~2.0.2, proxy-addr@~2.0.3:
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-2.0.3.tgz#355f262505a621646b3130a728eb647e22055341"
   dependencies:
@@ -6270,13 +6213,10 @@ qs@4.0.0:
 qs@6.5.1, qs@~6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
-<<<<<<< HEAD
-=======
 
 qs@6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
 
 qs@~1.2.2:
   version "1.2.2"
@@ -6372,8 +6312,6 @@ raw-body@2, raw-body@2.3.2:
     iconv-lite "0.4.19"
     unpipe "1.0.0"
 
-<<<<<<< HEAD
-=======
 raw-body@2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.3.3.tgz#1b324ece6b5706e153855bc1148c65bb7f6ea0c3"
@@ -6383,7 +6321,6 @@ raw-body@2.3.3:
     iconv-lite "0.4.23"
     unpipe "1.0.0"
 
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
 rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.5.tgz#275cd687f6e3b36cc756baa26dfee80a790301fd"
@@ -6984,11 +6921,6 @@ semver@~5.0.1:
 send@0.16.1:
   version "0.16.1"
   resolved "https://registry.yarnpkg.com/send/-/send-0.16.1.tgz#a70e1ca21d1382c11d0d9f6231deb281080d7ab3"
-<<<<<<< HEAD
-  dependencies:
-    debug "2.6.9"
-    depd "~1.1.1"
-=======
   dependencies:
     debug "2.6.9"
     depd "~1.1.1"
@@ -7010,7 +6942,6 @@ send@0.16.2:
   dependencies:
     debug "2.6.9"
     depd "~1.1.2"
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
     destroy "~1.0.4"
     encodeurl "~1.0.2"
     escape-html "~1.0.3"
@@ -7041,8 +6972,6 @@ serve-static@1.13.1:
     escape-html "~1.0.3"
     parseurl "~1.3.2"
     send "0.16.1"
-<<<<<<< HEAD
-=======
 
 serve-static@1.13.2:
   version "1.13.2"
@@ -7052,7 +6981,6 @@ serve-static@1.13.2:
     escape-html "~1.0.3"
     parseurl "~1.3.2"
     send "0.16.2"
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
 
 set-blocking@~2.0.0:
   version "2.0.0"
@@ -7831,11 +7759,7 @@ type-is@~1.5.2:
     media-typer "0.3.0"
     mime-types "~2.0.9"
 
-<<<<<<< HEAD
-type-is@~1.6.15:
-=======
 type-is@~1.6.15, type-is@~1.6.16:
->>>>>>> fe599d0b0189365706716b2f58f625a2ca2ccd59
   version "1.6.16"
   resolved "https://registry.yarnpkg.com/type-is/-/type-is-1.6.16.tgz#f89ce341541c672b25ee7ae3c73dee3b2be50194"
   dependencies:
