@@ -113,3 +113,5 @@ PaymentTC.addFields({code: TestCodeTC.getType()})
 const ViewerCandidateTC = exports.ViewerCandidateTC = GQC.getOrCreateTC('ViewerCandidate');
 const ViewerInstitutionTC = exports.ViewerInstitutionTC = GQC.getOrCreateTC('ViewerInstitution');
 const ViewerAdminTC = exports.ViewerAdminTC = GQC.getOrCreateTC('ViewerAdmin');
+
+const PlaceHolderTC = exports.PlaceHolderTC = GQC.getOrCreateTC('PlaceHolder');
