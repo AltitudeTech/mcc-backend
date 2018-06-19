@@ -35,7 +35,9 @@ const {
 	ViewerInstitutionTC,
 	IndustryTC,
 	AdminTC,
-	ViewerAdminTC
+	ViewerAdminTC,
+	PaymentTC,
+	TestCodeTC
 } = typeComposers;
 
 //Add relationships and resolvers to schema
@@ -46,14 +48,14 @@ addResolvers();
 //Add fields and resolvers to rootQuery
 GQC.rootQuery().addFields({
 	user: UserTC.get('$findOne'),
-	...authAccess({userType: 'Candidate'}, {
+	...authAccess({sourceUserType: 'Candidate'}, {
 		candidateIsAuthenticated: CandidateTC.getResolver('isAuthenticated'),
-    viewerCandidate: ViewerCandidateTC.get('$candidateAccess'),
+    viewerCandidate: ViewerCandidateTC.getResolver('candidateAccess'),
 	}),
-	...authAccess({userType: 'Candidate', isActivated: true}, {
+	...authAccess({sourceUserType: 'Candidate', isActivated: true}, {
     isActivatedViewerCandidate: ViewerCandidateTC.get('$candidateAccess'),
 	}),
-	...authAccess({userType: 'Institution'}, {
+	...authAccess({sourceUserType: 'Institution'}, {
 		viewerInstitution: ViewerInstitutionTC.get('$institutionAccess'),
 		//industryMany: IndustryTC.get('$findMany'),
 		// jobById: isSelf(JobTC, '$findById'),
@@ -61,7 +63,7 @@ GQC.rootQuery().addFields({
 		//institutionJobById: findSelfRelationship('jobs', JobTC),
 		// institutionJobsPagination: findSelfRelationship('jobs', JobTC),
 	}),
-	...authAccess({userType: 'Admin'}, {
+	...authAccess({sourceUserType: 'Admin'}, {
 		viewerAdmin: ViewerAdminTC.get('$adminAccess'),
 		managerCandidateById: CandidateTC.get('$findById'),
 	}),
@@ -82,8 +84,9 @@ GQC.rootMutation().addFields({
 	// signUpInstitution: InstitutionTC.get('$signUp'),
 	// loginAdmin: AdminTC.get('$loginWithPhone'),
 	// signUpAdmin: AdminTC.get('$signUp'),
-	...authAccess({userType: 'Candidate'}, {
+	...authAccess({sourceUserType: 'Candidate'}, {
 		candidateUpdateById: updateSelf(CandidateTC),
+		createPaymentRecord: PaymentTC.getResolver('createOne'),
 		//addJobExperience: createSelfRelationship( 'experience', JobExperienceTC),
 		//updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
 		//deleteJobExperience: deleteSelfRelationship( 'experience', JobExperienceTC),
@@ -97,7 +100,7 @@ GQC.rootMutation().addFields({
 		//updateReferee: updateSelfRelationship( 'referees', RefereeTC),
 		//deleteReferee: deleteSelfRelationship( 'referees', RefereeTC),
 	}),
-//	...authAccess({userType: 'Institution'}, {
+//	...authAccess({sourceUserType: 'Institution'}, {
 		// institutionUpdateById:updateSelf(InstitutionTC),
 		//addJob: createSelfRelationship( 'jobs', JobTC),
 		//updateJob: updateSelfRelationship( 'jobs', JobTC),
@@ -107,7 +110,7 @@ GQC.rootMutation().addFields({
 		// updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
 		// deleteJobExperience: deleteSelfRelationship( 'experience', JobExperienceTC),
 //	}),
-//	...authAccess({userType: 'Admin'}, {
+//	...authAccess({sourceUserType: 'Admin'}, {
 		//addCandidateDocument: createManagedRelationship( 'documentsUploaded', CandidateDocumentTC, 'Candidate'),
 		//deleteCandidateDocument: deleteManagedRelationship( 'documentsUploaded', CandidateDocumentTC, 'Candidate'),
 		//addCandidateCaseFile: createManagedRelationship( 'caseFiles', CaseFileTC, 'Candidate'),
