@@ -1,6 +1,6 @@
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 const keystone = require('keystone');
-const { GQC, TypeComposer, InputTypeComposer  } = require('graphql-compose');
+const { GQC } = require('graphql-compose');
 
 /**
 * Mongoose Models
@@ -13,6 +13,8 @@ const Admin = keystone.list('Admin').model;
 const Institution = keystone.list('Institution').model;
 const InstitutionMessage = keystone.list('InstitutionMessage').model;
 const Industry = keystone.list('Industry').model;
+const Payment = keystone.list('Payment').model;
+const TestCode = keystone.list('TestCode').model;
 
 /**
 * Config
@@ -92,6 +94,8 @@ const CandidateTC = exports.CandidateTC = composeWithMongoose(Candidate, Candida
 const AdminTC = exports.AdminTC = composeWithMongoose(Admin, AdminTCOptions);
 const InstitutionTC = exports.InstitutionTC = composeWithMongoose(Institution, InstitutionTCOptions);
 const InstitutionMessageTC = exports.InstitutionMessageTC = composeWithMongoose(InstitutionMessage);
+const PaymentTC = exports.PaymentTC = composeWithMongoose(Payment);
+const TestCodeTC = exports.TestCodeTC = composeWithMongoose(TestCode);
 
 
 /**
@@ -101,7 +105,7 @@ UserTC.addFields({jwt: 'String'})
 CandidateTC.addFields({jwt: 'String'})
 InstitutionTC.addFields({jwt: 'String'})
 AdminTC.addFields({jwt: 'String'})
-
+PaymentTC.addFields({code: TestCodeTC.getType()})
 
 /**
 * Viewer Fields for authentication and authorization
