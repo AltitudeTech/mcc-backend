@@ -19,47 +19,35 @@ module.exports = {
         return (existing)
       } else {
         //find code and add to payment
-        const testCode = await TestCode.findOne({isAssigned: false})
-        if (testCode) {
-          const newPayment = new Payment({
-            paystackReference,
-            madeBy: sourceUser._id,
-            testCode: testCode._id
-          })
-          const payment = await newPayment.save();
-          return (payment)
-        } else {
-          return Promise.reject(new Error('no available code'))
-        }
-        // return new Promise((resolve, reject) => {
-        //   paystack.transactions.verify(paystackReference, async (error, body) => {
-        //     if (error) {
-        //       reject(error)
-        //     }
-        //     // console.log(body);
-        //     if (body.status){
-        //       if (body.data.status=="success") {
-        //         //find code and add to payment
-        //         const testCode = await TestCode.findOne({isAssigned: false})
-        //         if (testCode) {
-        //           const newPayment = new Payment({
-        //             paystackReference,
-        //             madeBy: sourceUser._id,
-        //             testCode: testCode._id
-        //           })
-        //           const payment = await newPayment.save();
-        //           resolve(payment)
-        //         } else {
-        //           reject(new Error('no available code'))
-        //         }
-        //       } else {
-        //         reject(body.data.status)
-        //       }
-        //     } else {
-        //       reject(body.message);
-        //     }
-        //   });
-        // });
+        return new Promise((resolve, reject) => {
+          paystack.transactions.verify(paystackReference, async (error, body) => {
+            if (error) {
+              reject(error)
+            }
+            // console.log(body);
+            if (body.status){
+              if (body.data.status=="success") {
+                //find code and add to payment
+                const testCode = await TestCode.findOne({isAssigned: false})
+                if (testCode) {
+                  const newPayment = new Payment({
+                    paystackReference,
+                    madeBy: sourceUser._id,
+                    testCode: testCode._id
+                  })
+                  const payment = await newPayment.save();
+                  resolve(payment)
+                } else {
+                  reject(new Error('no available code'))
+                }
+              } else {
+                reject(body.data.status)
+              }
+            } else {
+              reject(body.message);
+            }
+          });
+        });
       }
     } catch (e) {
       return Promise.reject(e);
