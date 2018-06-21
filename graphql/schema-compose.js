@@ -86,7 +86,8 @@ GQC.rootMutation().addFields({
 	// signUpAdmin: AdminTC.get('$signUp'),
 	...authAccess({sourceUserType: 'Candidate'}, {
 		candidateUpdateById: updateSelf(CandidateTC),
-		createPaymentRecord: PaymentTC.getResolver('createOne'),
+		findOrCreatePaymentRecord: PaymentTC.getResolver('findOrCreatePayment'),
+		// createPaymentRecord: PaymentTC.getResolver('createOne'),
 		//addJobExperience: createSelfRelationship( 'experience', JobExperienceTC),
 		//updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
 		//deleteJobExperience: deleteSelfRelationship( 'experience', JobExperienceTC),

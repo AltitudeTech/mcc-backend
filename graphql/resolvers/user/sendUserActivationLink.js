@@ -61,7 +61,7 @@ module.exports = {
         });
       });
     } catch (e) {
-      throw e;
+      return Promise.reject(e);
     }
   },
 }

@@ -10,12 +10,14 @@ var TestCode = new keystone.List('TestCode', {
 });
 
 TestCode.add({
-  code: { type: Types.Text, required: true, index: true, initial: true },
-  isExpired: { type: Boolean, required: true, index: true, default: false },
-  issueDate: { type: Types.Datetime, required: true, index: true, default: Date.now() },
-  assignedTO: { type: Types.Relationship, ref: 'User', many: false, required: true, initial: true },
+  code: { type: Types.Text, required: true, index: true, initial: true, unique: true },
+  isExpired: { type: Boolean, index: true, default: false },
+  isAssigned: { type: Boolean, index: true, default: false },
+  issueDate: { type: Types.Datetime, index: true, default: Date.now(), required: true, },
+  // assignedTO: { type: Types.Relationship, ref: 'User', many: false, initial: true, noedit: true },
 });
 
+TestCode.relationship({ ref: 'Payment', path: 'payment', refPath: 'testCode' });
 
 /**
  * Registration
