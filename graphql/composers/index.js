@@ -107,7 +107,6 @@ UserTC.addFields({jwt: 'String'})
 CandidateTC.addFields({jwt: 'String'})
 InstitutionTC.addFields({jwt: 'String'})
 AdminTC.addFields({jwt: 'String'})
-PaymentTC.addFields({code: TestCodeTC.getType()})
 
 /**
 * Viewer Fields for authentication and authorization

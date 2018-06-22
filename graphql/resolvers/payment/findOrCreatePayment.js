@@ -1,8 +1,12 @@
 const keystone = require('keystone');
-const paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
 const Payment = keystone.list('Payment').model;
 const TestCode = keystone.list('TestCode').model;
 const { PaymentTC } = require('../../composers');
+
+if (!process.env.PAYSTACK_SECRET_KEY){
+  console.error('PAYSTACK_SECRET_KEY is missing from env');
+}
+const paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
 
 // loginWithEmail resolver for user
 module.exports = {
@@ -20,25 +24,34 @@ module.exports = {
       } else {
         //find code and add to payment
         return new Promise((resolve, reject) => {
-          paystack.transactions.verify(paystackReference, async (error, body) => {
+          paystack.transaction.verify(paystackReference, async (error, body) => {
             if (error) {
+              //possible Error - connect ETIMEDOUT 104.16.6.25:443
               reject(error)
             }
             // console.log(body);
             if (body.status){
               if (body.data.status=="success") {
                 //find code and add to payment
-                const testCode = await TestCode.findOne({isAssigned: false})
-                if (testCode) {
+                const assignedCode = await TestCode.findOne({assignedToPayment: paystackReference})
+                if (assignedCode) {
                   const newPayment = new Payment({
                     paystackReference,
-                    madeBy: sourceUser._id,
-                    testCode: testCode._id
+                    madeBy: sourceUser._id
                   })
-                  const payment = await newPayment.save();
-                  resolve(payment)
+                  return(newPayment.save())
                 } else {
-                  reject(new Error('no available code'))
+                  // assign payment reference to test code
+                  const testCode = await TestCode.findOneAndUpdate({assignedToPayment: null}, {assignedToPayment: paystackReference})
+                  if (testCode) {
+                    const newPayment = new Payment({
+                      paystackReference,
+                      madeBy: sourceUser._id
+                    })
+                    return(newPayment.save())
+                  } else {
+                    return Promise.reject(new Error('no available code'))
+                  }
                 }
               } else {
                 reject(body.data.status)
@@ -51,7 +64,6 @@ module.exports = {
       }
     } catch (e) {
       return Promise.reject(e);
-      // return(e);
     }
   },
 }
