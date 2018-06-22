@@ -14,6 +14,7 @@ const Institution = keystone.list('Institution').model;
 const InstitutionMessage = keystone.list('InstitutionMessage').model;
 const Industry = keystone.list('Industry').model;
 const Payment = keystone.list('Payment').model;
+const Price = keystone.list('Price').model;
 const TestCode = keystone.list('TestCode').model;
 
 /**
@@ -95,6 +96,7 @@ const AdminTC = exports.AdminTC = composeWithMongoose(Admin, AdminTCOptions);
 const InstitutionTC = exports.InstitutionTC = composeWithMongoose(Institution, InstitutionTCOptions);
 const InstitutionMessageTC = exports.InstitutionMessageTC = composeWithMongoose(InstitutionMessage);
 const PaymentTC = exports.PaymentTC = composeWithMongoose(Payment);
+const PriceTC = exports.PriceTC = composeWithMongoose(Price);
 const TestCodeTC = exports.TestCodeTC = composeWithMongoose(TestCode);
 
 
