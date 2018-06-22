@@ -5,7 +5,7 @@ const keystone = require('keystone');
 const { GQC } = require('graphql-compose');
 
 const typeComposers = require('./composers');
-//const addRelationships = require('./relationships');
+const addRelationships = require('./relationships');
 const addResolvers = require('./resolvers');
 const addViewers = require('./viewers');
 
@@ -42,7 +42,7 @@ const {
 
 //Add relationships and resolvers to schema
 addViewers();
-//addRelationships();
+addRelationships();
 addResolvers();
 
 //Add fields and resolvers to rootQuery
