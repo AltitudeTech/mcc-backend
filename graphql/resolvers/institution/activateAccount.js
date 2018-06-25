@@ -20,7 +20,7 @@ module.exports = {
         if (createdAt && moment(createdAt).isAfter(moment().subtract(24, 'hours'))) {
           const institution = await Institution.findOne({_id: id});
           if (institution.isActivated) {
-            throw Error('activated account')
+            return Promise.reject('activated account')
           } else {
             institution.isActivated = true;
             await institution.save();
@@ -35,10 +35,10 @@ module.exports = {
             return institution;
           }
         } else {
-          throw Error('expired token')
+          return Promise.reject('expired token')
         }
       } else {
-        throw Error('invalid token')
+        return Promise.reject('invalid token')
       }
     } catch (e) {
       throw e;

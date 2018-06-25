@@ -37,7 +37,7 @@ module.exports = {
       }
       return Promise.reject('email already Exists');
     } catch (e) {
-      Promise.reject(e);
+      return Promise.reject(e);
     }
   },
 }

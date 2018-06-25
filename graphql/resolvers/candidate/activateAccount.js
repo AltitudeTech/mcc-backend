@@ -20,7 +20,7 @@ module.exports = {
         if (createdAt && moment(createdAt).isAfter(moment().subtract(24, 'hours'))) {
           const candidate = await Candidate.findOne({_id: id});
           if (candidate.isActivated) {
-            throw Error('activated account')
+            return Promise.reject('activated account')
           } else {
             candidate.isActivated = true;
             await candidate.save();
@@ -35,10 +35,10 @@ module.exports = {
             return candidate;
           }
         } else {
-          throw Error('expired token')
+          return Promise.reject('expired token')
         }
       } else {
-        throw Error('invalid token')
+        return Promise.reject('invalid token')
       }
     } catch (e) {
       throw e;

@@ -30,7 +30,7 @@ module.exports = {
           });
         });
       } catch (e) {
-        Promise.reject(e);
+        return Promise.reject(e);
       }
     }
     return Promise.reject('no user in context not found');

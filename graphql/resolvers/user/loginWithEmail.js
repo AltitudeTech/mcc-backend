@@ -42,7 +42,7 @@ module.exports = {
       }
       return Promise.reject('email/user not found');
     } catch (e) {
-      Promise.reject(e);
+      return Promise.reject(e);
     }
   },
 }

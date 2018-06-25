@@ -16,17 +16,17 @@ module.exports = {
       console.log("sending email");
     	if (this.isActivated) {
     		console.log('Account is already activated');
-    		throw new Error('Account is already activated');
+    		return Promise.reject('Account is already activated');
     	}
 
       if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
       	console.log('Unable to send email - no mailgun credentials provided');
-      	throw new Error('could not find mailgun credentials');
+      	return Promise.reject('could not find mailgun credentials');
       }
 
       if (!process.env.ACTIVATION_JWT_SECRET) {
       	console.log('Unable to generate activation code - no ACTIVATION_JWT_SECRET provided');
-      	throw new Error('could not find ACTIVATION_JWT_SECRET');
+      	return Promise.reject('could not find ACTIVATION_JWT_SECRET');
       }
 
       const user = sourceUser;
