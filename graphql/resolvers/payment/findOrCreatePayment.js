@@ -12,7 +12,7 @@ const paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
 module.exports = {
   kind: 'mutation',
   name: 'findOrCreatePayment',
-  description: 'find or verfies a payment and assign a test code',
+  description: 'find or verifies a payment and assign a test code',
   args: { paystackReference: 'String!' },
   type: PaymentTC,
   resolve: async ({ args, context, sourceUser }) => {
@@ -35,11 +35,13 @@ module.exports = {
                 //find code and add to payment
                 const assignedCode = await TestCode.findOne({assignedToPayment: paystackReference})
                 if (assignedCode) {
+                  console.log('assignedCode');
                   const newPayment = new Payment({
                     paystackReference,
                     madeBy: sourceUser._id
                   })
-                  return(newPayment.save())
+                  // const payment = await ;
+                  resolve(newPayment.save());
                 } else {
                   // assign payment reference to test code
                   const testCode = await TestCode.findOneAndUpdate({assignedToPayment: null}, {assignedToPayment: paystackReference})
@@ -48,12 +50,13 @@ module.exports = {
                       paystackReference,
                       madeBy: sourceUser._id
                     })
-                    return(newPayment.save())
+                    resolve(newPayment.save());
                   } else {
-                    return Promise.reject(new Error('no available code'))
+                    reject(new Error('no available code'))
                   }
                 }
               } else {
+                console.log(body);
                 reject(body.data.status)
               }
             } else {
