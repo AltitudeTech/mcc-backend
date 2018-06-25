@@ -84,6 +84,22 @@ const InstitutionTCOptions = {
     }
   }
 };
+const PaymentTCOptions = {
+  fields:{
+    remove: [
+      'madeBy', 'paystackReference'
+    ]
+  },
+  resolvers:{
+    updateById: {
+      record: {
+        removeFields: [
+          'madeBy', 'paystackReference'
+        ]
+      }
+    }
+  }
+};
 
 /**
 * Exports
@@ -95,7 +111,7 @@ const CandidateTC = exports.CandidateTC = composeWithMongoose(Candidate, Candida
 const AdminTC = exports.AdminTC = composeWithMongoose(Admin, AdminTCOptions);
 const InstitutionTC = exports.InstitutionTC = composeWithMongoose(Institution, InstitutionTCOptions);
 const InstitutionMessageTC = exports.InstitutionMessageTC = composeWithMongoose(InstitutionMessage);
-const PaymentTC = exports.PaymentTC = composeWithMongoose(Payment);
+const PaymentTC = exports.PaymentTC = composeWithMongoose(Payment, PaymentTCOptions);
 const PriceTC = exports.PriceTC = composeWithMongoose(Price);
 const TestCodeTC = exports.TestCodeTC = composeWithMongoose(TestCode);
 

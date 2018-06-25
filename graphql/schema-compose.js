@@ -76,42 +76,28 @@ GQC.rootQuery().addFields({
 
 //Add fields and resolvers to rootQuery
 GQC.rootMutation().addFields({
-	// removeuser: UserTC.getResolver('removeById'),
+	// unauthorized User Mutations
 	loginUser: UserTC.getResolver('loginWithEmail'),
 
+	// unauthorized Candidate Mutations
 	signUpCandidate: CandidateTC.getResolver('signUp'),
 	activateCandidateAccount: CandidateTC.getResolver('activateAccount'),
+
+	// unauthorized Institution Mutations
 	signUpInstitution: InstitutionTC.getResolver('signUp'),
 	activateInstitutionAccount: InstitutionTC.getResolver('activateAccount'),
+
 	// loginAdmin: AdminTC.getResolver('loginWithPhone'),
 	// signUpAdmin: AdminTC.getResolver('signUp'),
+
+	//authorized User Mutations
 	...authAccess({sourceUserType: 'Candidate'}, {
 		candidateUpdateSelf: updateSelf({TC: CandidateTC}),
-		findOrCreatePaymentRecord: PaymentTC.getResolver('findOrCreatePayment'),
-		// createPaymentRecord: PaymentTC.getResolver('createOne'),
-		// addJobExperience: createSelfRelationship( 'experience', JobExperienceTC),
-		// updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
-		// deleteJobExperience: deleteSelfRelationship( 'experience', JobExperienceTC),
-		// addEducation: createSelfRelationship( 'education', EducationTC),
-		// updateEducation: updateSelfRelationship( 'education', EducationTC),
-		// deleteEducation: deleteSelfRelationship( 'education', EducationTC),
-		// addCertificate: createSelfRelationship( 'certificates', CertificateTC),
-		// updateCertificate: updateSelfRelationship( 'certificates', CertificateTC),
-		// deleteCertificate: deleteSelfRelationship( 'certificates', CertificateTC),
-		// addReferee: createSelfRelationship( 'referees', RefereeTC),
-		// updateReferee: updateSelfRelationship( 'referees', RefereeTC),
-		// deleteReferee: deleteSelfRelationship( 'referees', RefereeTC),
+		candidateFindOrCreatePaymentRecord: PaymentTC.getResolver('findOrCreatePayment'),
 	}),
 	...authAccess({sourceUserType: 'Institution'}, {
-		candidateUpdateSelf: updateSelf({TC: CandidateTC}),
-		// institutionUpdateById:updateSelf(InstitutionTC),
-		// addJob: createSelfRelationship( 'jobs', JobTC),
-		// updateJob: updateSelfRelationship( 'jobs', JobTC),
-		// deleteJob: deleteSelfRelationship( 'jobs', JobTC),
-		// createInstitutionMessage: InstitutionMessageTC.getResolver('createOne'),
-		// addJobExperience: createSelfRelationship( 'experience', JobExperienceTC),
-		// updateJobExperience: updateSelfRelationship( 'experience', JobExperienceTC),
-		// deleteJobExperience: deleteSelfRelationship( 'experience', JobExperienceTC),
+		institutionUpdateSelf: updateSelf({TC: InstitutionTC}),
+		// institutionFindOrCreatePaymentRecord: PaymentTC.getResolver('findOrCreatePayment'),
 	}),
 //	...authAccess({sourceUserType: 'Admin'}, {
 		// addCandidateDocument: createManagedRelationship( 'documentsUploaded', CandidateDocumentTC, 'Candidate'),
