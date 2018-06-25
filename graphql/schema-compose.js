@@ -97,6 +97,7 @@ GQC.rootMutation().addFields({
 		candidateFindOrCreatePaymentRecord: PaymentTC.getResolver('findOrCreatePayment'),
 	}),
 	...authAccess({sourceUserType: 'Institution'}, {
+		institutionResendActivationLink: UserTC.getResolver('sendUserActivationLink'),
 		institutionUpdateSelf: updateSelf({TC: InstitutionTC}),
 		// institutionFindOrCreatePaymentRecord: PaymentTC.getResolver('findOrCreatePayment'),
 	}),
