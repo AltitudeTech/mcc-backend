@@ -45,17 +45,64 @@ Institution.add('Institution',{
 /*Institution.schema.virtual('canAccessKeystone').get(function () {
 	return this.isAdmin;
 });*/
-
-
-/**
- * Relationships
- */
-//Institution.relationship({ ref: 'Post', path: 'posts', refPath: 'author' });
-
 Institution.schema.pre('save', function (next) {
   this.name = toCamelCase(this.name);
 	next();
 });
+
+Institution.schema.post('save',async function () {
+	if (this.wasNew) {
+		try {
+			this.sendActivationLink();
+		} catch (e) {
+			console.log(e);
+		}
+	}
+});
+
+Institution.schema.methods.sendActivationLink = function () {
+	const user = this;
+	return new Promise(function(resolve, reject) {
+		console.log("sending institution activation email");
+		if (user.isActivated) {
+			// console.log('Account is already activated');
+			reject(new Error('Account is already activated'));
+		}
+
+		if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
+			console.log('Unable to send email - no mailgun credentials provided');
+			reject(new Error('could not find mailgun credentials'));
+		}
+
+		const brand = keystone.get('brand');
+
+		const code = jwt.sign({
+			id: user._id,
+			createdAt: Date.now(),
+		}, process.env.ACTIVATION_JWT_SECRET);
+		const activationLink = `http://mycareerchoice.global/activate?code=${code}`
+
+		new keystone.Email({
+			templateName: 'activate-institution-account',
+			transport: 'mailgun',
+		}).send({
+			to: [user.email],
+			from: {
+				name: 'MCC',
+				email: 'no-reply@mycarrerchoice.global',
+			},
+			subject: 'MCC Account Activation',
+			user,
+			brand,
+			activationLink
+		});
+	});
+}
+
+/**
+ * Relationships
+ */
+ Institution.relationship({ ref: 'Payment', path: 'payments', refPath: 'madeBy' });
 
 /**
  * Registration

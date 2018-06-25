@@ -28,8 +28,14 @@ User.schema.virtual('canAccessKeystone').get(function () {
 User.schema.pre('save', function (next) {
 	// console.log('saving user');
 	this.wasNew = this.isNew;
-  this.name.first = toCamelCase(this.name.first);
-  this.name.last = toCamelCase(this.name.last);
+	if (this.name) {
+		if (this.name.first) {
+			this.name.first = toCamelCase(this.name.first);
+		}
+		if (this.name.last) {
+			this.name.last = toCamelCase(this.name.last);
+		}
+	}
 	if (this.phone) {
 		if (PHONE_REGEX.test(this.phone)){
 			next();
