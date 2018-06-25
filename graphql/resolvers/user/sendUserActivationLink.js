@@ -12,9 +12,10 @@ module.exports = {
   args: {code: 'String'},
   type: UserTC,
   resolve: async ({ args, context, sourceUserType, sourceUser }) => {
+    const user = sourceUser;
     try {
       console.log("sending email");
-    	if (this.isActivated) {
+    	if (user.isActivated) {
     		console.log('Account is already activated');
     		return Promise.reject('Account is already activated');
     	}
@@ -29,11 +30,10 @@ module.exports = {
       	return Promise.reject('could not find ACTIVATION_JWT_SECRET');
       }
 
-      const user = sourceUser;
     	const brand = keystone.get('brand');
 
     	const code = jwt.sign({
-    		id: this._id,
+    		id: user._id,
     		createdAt: Date.now(),
     	}, process.env.ACTIVATION_JWT_SECRET);
       const baseURL = process.env.BASE_URL || `http://localhost:${ process.env.PORT || '3000' }`
@@ -46,8 +46,8 @@ module.exports = {
         }).send({
           to: [user.email],
           from: {
-            name: 'WeberHub',
-            email: 'no-reply@webercub.com',
+            name: 'MCC',
+            email: 'no-reply@mycareerchoice.global',
           },
           subject: 'MCC Account Activation',
           user,
