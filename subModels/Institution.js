@@ -95,6 +95,11 @@ Institution.schema.methods.sendActivationLink = function () {
 			user,
 			brand,
 			activationLink
+		}, (err)=>{
+			if (err) {
+				console.log(err);
+			}
+			resolve();
 		});
 	});
 }

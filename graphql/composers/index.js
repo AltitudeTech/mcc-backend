@@ -85,11 +85,6 @@ const InstitutionTCOptions = {
   }
 };
 const PaymentTCOptions = {
-  fields:{
-    remove: [
-      'madeBy', 'paystackReference'
-    ]
-  },
   resolvers:{
     updateById: {
       record: {
