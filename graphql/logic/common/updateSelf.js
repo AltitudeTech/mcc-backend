@@ -1,5 +1,5 @@
-module.exports = ( TC ) => {
-	return TC.getResolver('updateById').wrapResolve(next => async (rp) => {
+module.exports = ({ TC }) => {
+	return TC.get('$updateById').wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
 		const { args, sourceUser, sourceUserType } = rp
 		if (sourceUser._id == args.record._id){

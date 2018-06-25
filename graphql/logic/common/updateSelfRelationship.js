@@ -1,5 +1,5 @@
-module.exports = ( field, TC ) => {
-	return TC.getResolver('updateById').wrapResolve(next => async (rp) => {
+module.exports = ({ field, TC }) => {
+	return TC.get('$updateById').wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
 		const { args, sourceUser, sourceUserType } = rp
 		const _field = sourceUser[field]

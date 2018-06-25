@@ -1,6 +1,6 @@
 //Remove and delete id of relationship document to the sourceUser/Self
-module.exports = ( field, TC ) => {
-	return TC.getResolver('removeById').wrapResolve(next => async (rp) => {
+module.exports = ({ field, TC }) => {
+	return TC.get('$removeById').wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
 		const { args, sourceUser, sourceUserType } = rp
 		if (sourceUser) {

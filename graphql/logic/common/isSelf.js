@@ -1,4 +1,4 @@
-module.exports = ( TC, resolver ) => {
+module.exports = ({ TC, resolver }) => {
 	return TC.get(resolver).wrapResolve(next => async (rp) => {
 		//get sourceUser from resolveParams (rp)
 		const { args, sourceUser, sourceUserType } = rp
