@@ -1,6 +1,4 @@
 
-exports.authAccess = require('./authAccess')
-
 exports.updateSelf = require('./updateSelf')
 
 exports.isSelf = require('./isSelf')

@@ -12,7 +12,6 @@ const addViewers = require('./viewers');
 //Get logic middleware
 const {
 	isSelf,
-	authAccess,
 	updateSelf,
 	//createSelfRelationship,
 	updateSelfRelationship,
@@ -21,6 +20,8 @@ const {
 	createManagedRelationship,
 	deleteManagedRelationship
 } = require('./logic/common');
+
+const { authAccess } = require('./logic/authentication');
 
 const {
 	UserTC,
