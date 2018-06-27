@@ -44,13 +44,13 @@ Candidate.schema.methods.sendActivationLink = function () {
 			reject(new Error('could not find mailgun credentials'));
 		}
 
-		const brand = keystone.get('brand');
+		const brandDetails = keystone.get('brandDetails');
 
 		const code = jwt.sign({
 			id: user._id,
 			createdAt: Date.now(),
 		}, process.env.ACTIVATION_JWT_SECRET);
-		const activationLink = `http://mycareerchoice.global/activate?code=${code}`
+		const activationLink = `${process.env.FRONT_END_URL}/activate?code=${code}`
 
 		new keystone.Email({
 			templateName: 'activate-account',
@@ -63,15 +63,15 @@ Candidate.schema.methods.sendActivationLink = function () {
 			},
 			subject: 'MCC Account Activation',
 			user,
-			brand,
+			brandDetails,
 			activationLink
 		}, (err)=>{
 			if (err) {
 				console.log(err);
 				reject(err);
 			}
-			resolve();
 		});
+		resolve();
 	});
 }
 

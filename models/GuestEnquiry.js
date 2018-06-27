@@ -48,7 +48,7 @@ GuestEnquiry.schema.methods.sendNotificationEmail = function () {
 		var brand = keystone.get('brand');
 
 		keystone.list('User').model.find({isAdmin: true, sendGuestEnquiries: true}).exec(function (err, admins) {
-			if (err) return callback(err);
+			if (err) reject(err);
 			new keystone.Email({
 				templateName: 'guest-enquiry-notification',
 				transport: 'mailgun',
@@ -58,16 +58,16 @@ GuestEnquiry.schema.methods.sendNotificationEmail = function () {
 					name: 'MCC',
 					email: 'contact@mycareerchoice.global',
 				},
-				subject: 'New GuestEnquiry for MCC',
-				enquiry: enquiry,
-				brand: brand,
+				subject: 'New Guest Enquiry for MCC',
+				enquiry,
+				brand,
 			}, (err)=>{
 				if (err) {
 					console.log(err);
 					reject(err);
 				}
-				resolve();
 			});
+			resolve();
 		});
 	})
 };
@@ -83,7 +83,7 @@ GuestEnquiry.schema.methods.sendConfirmationEmail = function () {
 			reject(new Error('could not find mailgun credentials'));
 		}
 
-		const brand = keystone.get('brand');
+		const brandDetails = keystone.get('brandDetails');
 
 		new keystone.Email({
 			templateName: 'guest-enquiry-confirmation',
@@ -96,14 +96,14 @@ GuestEnquiry.schema.methods.sendConfirmationEmail = function () {
 			},
 			subject: 'MCC Enquiry',
 			enquiry,
-			brand,
+			brandDetails
 		}, (err)=>{
 			if (err) {
 				console.log(err);
 				reject(err);
 			}
-			resolve();
 		});
+		resolve();
 	});
 }
 

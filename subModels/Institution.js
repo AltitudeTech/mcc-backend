@@ -74,7 +74,7 @@ Institution.schema.methods.sendActivationLink = function () {
 			reject(new Error('could not find mailgun credentials'));
 		}
 
-		const brand = keystone.get('brand');
+		const brandDetails = keystone.get('brandDetails');
 
 		const code = jwt.sign({
 			id: user._id,
@@ -93,14 +93,14 @@ Institution.schema.methods.sendActivationLink = function () {
 			},
 			subject: 'MCC Account Activation',
 			user,
-			brand,
+			brandDetails,
 			activationLink
 		}, (err)=>{
 			if (err) {
 				console.log(err);
 			}
-			resolve();
 		});
+		resolve();
 	});
 }
 

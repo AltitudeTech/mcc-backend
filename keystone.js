@@ -46,23 +46,46 @@ keystone.set('routes', require('./routes'));
 
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
-	candidates: ['Candidate' ],
+	candidates: ['Candidate'],
 	//CandidateDocuments: ['CandidateDocument', 'SkillAnalysisResult', 'SeekerResult', 'StartupResult'],
 	Institutions: ['Institution', 'Industry'],
 	Admin: 'Admin',
+	payments: ['Payment', 'TestCode'],
 	//poll: ['Poll', 'PollVote'],
 	country: ['State', 'LocalGovernment'],
+	newsletter: ['Newsletter', 'NewsletterSubscriber'],
 	//posts: ['posts', 'post-categories'],
 	//galleries: 'galleries',
+	enquiries: ['GuestEnquiry','enquiries'],
 	Ictdatas : ['Ictdata'],
-	enquiries: 'enquiries',
 	users: 'users',
 });
 
 // Configure cloudinary
 keystone.set('cloudinary config', process.env.CLOUDINARY_URL );
 
-// Start Keystone to connect to your database and initialise the web server
+keystone.set('brandDetails', {
+	brand: keystone.get('brand') || 'My Career Choice',
+	mailAddress: '22 Kumasi Cresent, Wuse 2, Abuja',
+	homepageUrl: process.env.FRONT_END_URL,
+	phone: '+234.818.855.5611',
+	emailLogoUrl: `http://www.mycareerchoice.global/static/images/mcclogo-text-dark.png`
+});
+
+//check for environment variables
+function checkEnv(envVariable) {
+	if (!process.env[envVariable]) {
+		console.log('----------------------------------------'
+		+ `\nWARNING: MISSING ${envVariable} CREDENTIALS`
+		+ '\n----------------------------------------')
+	}
+}
+
+checkEnv('FRONT_END_URL');
+checkEnv('JWT_SECRET');
+checkEnv('ACTIVATION_JWT_SECRET');
+checkEnv('NEWSLETTER_JWT_SECRET');
+checkEnv('PAYSTACK_SECRET_KEY');
 
 if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
 	console.log('----------------------------------------'
@@ -74,4 +97,5 @@ if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
 	+ '\nset up your mailgun integration');
 }
 
+// Start Keystone to connect to your database and initialise the web server
 keystone.start();

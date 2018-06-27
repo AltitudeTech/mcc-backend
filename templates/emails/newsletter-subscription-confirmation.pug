@@ -299,7 +299,7 @@ table.body(border='0', cellpadding='0', cellspacing='0')
     td.container
       .content
         // START CENTERED WHITE CONTAINER
-        span.preheader please click the button below to verify your email address:
+        span.preheader Thank you for subscribing to our newsletter
         table.main
           // START MAIN CONTENT AREA
           tr
@@ -307,28 +307,24 @@ table.body(border='0', cellpadding='0', cellspacing='0')
               table(border='0', cellpadding='0', cellspacing='0')
                 tr
                   td
-                    p Hi #{user.name},
+                    p Hi #{newsletterSubscriber.email},
                     p
-                      | Congrats on signing up for #{brandDetails.brand}! In order to activate your account please click the button below to verify your email address:
-                    table.btn.btn-primary(border='0', cellpadding='0', cellspacing='0')
-                      tbody
-                        tr
-                          td(align='center')
-                            table(border='0', cellpadding='0', cellspacing='0')
-                              tbody
-                                tr
-                                  td
-                                    a(href=activationLink, target='_blank') Activate Account
-                    p If the button above doesn&apos;t work, paste this into your browser:
-                    p
-                      a(href=activationLink, target='_blank') #{activationLink}
+                      | Thank you for subscribing to our newsletter
+
+                    p our support center will reply you as soon as possible
+
                     p For additional help, visit our Support Center.
-                    p Welcome to your future career.
+                    p Have a lovely day, Cheers.
           // END MAIN CONTENT AREA
         // START FOOTER
         .footer
           table(border='0', cellpadding='0', cellspacing='0')
             tr
+              td.content-block
+                span.apple-link This email was sent to #{newsletterSubscriber.email}.
+                br
+                |  You're receiving this email because you're subscribed to the MCC newsletter. If you'd rather not see us in your inbox in the future, please
+                  a(href=unsubcribeLink, target='_blank') unsubcribe.
               td.content-block
                 span.apple-link #{brandDetails.brand}, #{brandDetails.mailAddress}
                 br
