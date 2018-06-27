@@ -110,6 +110,19 @@ const GuestEnquiryTCOptions = {
     }
   }
 };
+const NSTCOpts = [ '_id', 'createdAt', 'isActive', 'unsubcribeCode' ]
+const NewsletterSubscriberTCTCOptions = {
+  fields:{
+    remove: NSTCOpts
+  },
+  resolvers:{
+    createOne: {
+      record: {
+        removeFields: NSTCOpts
+      }
+    }
+  }
+};
 
 /**
 * Exports
@@ -125,8 +138,7 @@ const PaymentTC = exports.PaymentTC = composeWithMongoose(Payment, PaymentTCOpti
 const PriceTC = exports.PriceTC = composeWithMongoose(Price);
 const TestCodeTC = exports.TestCodeTC = composeWithMongoose(TestCode);
 const GuestEnquiryTC = exports.GuestEnquiryTC = composeWithMongoose(GuestEnquiry, GuestEnquiryTCOptions);
-const NewsletterSubscriberTC = exports.NewsletterSubscriberTC = composeWithMongoose(NewsletterSubscriber, GuestEnquiryTCOptions);
-
+const NewsletterSubscriberTC = exports.NewsletterSubscriberTC = composeWithMongoose(NewsletterSubscriber, NewsletterSubscriberTCTCOptions);
 
 /**
 * Add JWT to user models for login

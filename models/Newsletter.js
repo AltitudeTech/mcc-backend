@@ -8,7 +8,6 @@ var Types = keystone.Field.Types;
 
 var Newsletter = new keystone.List('Newsletter', {
 	map: {name: 'title'},
-	noedit: true,
 });
 
 Newsletter.add({
@@ -28,8 +27,8 @@ Newsletter.schema.pre('save', function (next) {
 
 Newsletter.schema.post('save', function () {
 	if (this.state == 'published') {
-		console.log('sending newsletter');
-		// this.sendNewsletter();
+		// console.log('sending newsletter');
+		this.sendNewsletter();
 	}
 });
 
@@ -44,14 +43,38 @@ Newsletter.schema.methods.sendNewsletter = function () {
 			return callback(new Error('could not find mailgun credentials'));
 		}
 
-		var brandDetails = keystone.get('brandDetails');
+		const brandDetails = keystone.get('brandDetails');
 
-		keystone.list('NewsletterSubscriber').model.find({isActive: true}).exec(function (err, newsletterSubscribers) {
+		new keystone.Email({
+			templateName: 'newsletter',
+			transport: 'mailgun',
+		}).send({
+			// 'recipient-variables': newsletterSubscribers.reduce((a, b) => Object.assign(a, b), {})
+			to: 'subscriber@mycarrerchoice.global',
+			from: {
+				name: 'MCC',
+				email: 'contact@mycareerchoice.global',
+			},
+			subject: newsletter.subject,
+			newsletter,
+			brandDetails,
+		}, (err)=>{
+			if (err) {
+				console.log(err);
+				reject(err);
+			}
+			// newsletter.sentTo = newsletterSubscribers.map(subscriber=>subscriber._id);
+			// newsletter.save();
+		});
+		resolve();
+
+		/*keystone.list('NewsletterSubscriber').model.find({isActive: true}).exec(function (err, newsletterSubscribers) {
 			if (err) reject(err);
 			new keystone.Email({
 				templateName: 'newsletter',
 				transport: 'mailgun',
 			}).send({
+				'recipient-variables': newsletterSubscribers.reduce((a, b) => Object.assign(a, b), {})
 				to: newsletterSubscribers.map(subscriber=>subscriber.email),
 				from: {
 					name: 'MCC',
@@ -69,7 +92,7 @@ Newsletter.schema.methods.sendNewsletter = function () {
 				newsletter.save();
 			});
 			resolve();
-		});
+		});*/
 	})
 };
 

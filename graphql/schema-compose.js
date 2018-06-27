@@ -82,7 +82,7 @@ GQC.rootMutation().addFields({
 
 	// unauthorized User Mutations
 	createEnquiry: GuestEnquiryTC.getResolver('createOne'),
-	subscribeToNewsletter: NewsletterSubscriberTC.getResolver('createOne'),
+	subscribeToNewsletter: NewsletterSubscriberTC.getResolver('subscribe'),
 	unsubscribeNewsletter: NewsletterSubscriberTC.getResolver('unsubscribe'),
 
 	loginUser: UserTC.getResolver('loginWithEmail'),

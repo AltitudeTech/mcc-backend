@@ -2,7 +2,6 @@ const keystone = require('keystone');
 const jwt = require('jsonwebtoken');
 const NewsletterSubscriber = keystone.list('NewsletterSubscriber').model;
 const { NewsletterSubscriberTC } = require('../../composers');
-const moment = require('moment');
 
 // activateAccount resolver for newsletterSubscriber
 module.exports = {

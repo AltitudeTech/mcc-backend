@@ -299,7 +299,7 @@ table.body(border='0', cellpadding='0', cellspacing='0')
     td.container
       .content
         // START CENTERED WHITE CONTAINER
-        span.preheader Thank you for subscribing to our newsletter
+        span.preheader MCC updates
         table.main
           // START MAIN CONTENT AREA
           tr
@@ -308,17 +308,17 @@ table.body(border='0', cellpadding='0', cellspacing='0')
                 tr
                   td
                     p Hi there,
-                    p
-                      | Thank you for subscribing to our newsletter
+                    div
+                      | #{newsletter.content}
 
                     p For additional help, visit our Support Center.
                     
                     p Have a lovely day, Cheers.
                     
                     p 
-                      | This email was sent to #{newsletterSubscriber.email}.
+                      | This email was sent to %recipient_email%.
                       | You're receiving this email because you're subscribed to the MCC newsletter. If you'd rather not see us in your inbox in the future, please &nbsp;
-                      a(href=unsubcribeLink, target='_blank') unsubcribe.
+                      a( target='_blank') unsubcribe. %unsubscribe_url%
           // END MAIN CONTENT AREA
         // START FOOTER
         .footer
