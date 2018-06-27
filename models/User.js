@@ -17,6 +17,7 @@ User.add({
 	passwordVersion: { type: Types.Text, initial: false, required: true, default: 1},
 }, 'Permissions', {
 	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
+	sendGuestEnquiries: { type: Boolean, label: 'receives notification email when an equiry is made', index: true },
 });
 
 // Provide access to Keystone
