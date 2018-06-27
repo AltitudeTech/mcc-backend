@@ -38,7 +38,8 @@ const {
 	AdminTC,
 	ViewerAdminTC,
 	PaymentTC,
-	TestCodeTC
+	TestCodeTC,
+	GuestEnquiryTC
 } = typeComposers;
 
 //Add relationships and resolvers to schema
@@ -77,7 +78,9 @@ GQC.rootQuery().addFields({
 
 //Add fields and resolvers to rootQuery
 GQC.rootMutation().addFields({
+
 	// unauthorized User Mutations
+	createEnquiry: GuestEnquiryTC.getResolver('createOne'),
 	loginUser: UserTC.getResolver('loginWithEmail'),
 
 	// unauthorized Candidate Mutations

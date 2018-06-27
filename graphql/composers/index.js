@@ -17,6 +17,8 @@ const Payment = keystone.list('Payment').model;
 const Price = keystone.list('Price').model;
 const TestCode = keystone.list('TestCode').model;
 
+const GuestEnquiry = keystone.list('GuestEnquiry').model;
+
 /**
 * Config
 */
@@ -95,6 +97,17 @@ const PaymentTCOptions = {
     }
   }
 };
+const GuestEnquiryTCOptions = {
+  resolvers:{
+    createOne: {
+      record: {
+        removeFields: [
+          'createdAt', '_id'
+        ]
+      }
+    }
+  }
+};
 
 /**
 * Exports
@@ -109,6 +122,7 @@ const InstitutionMessageTC = exports.InstitutionMessageTC = composeWithMongoose(
 const PaymentTC = exports.PaymentTC = composeWithMongoose(Payment, PaymentTCOptions);
 const PriceTC = exports.PriceTC = composeWithMongoose(Price);
 const TestCodeTC = exports.TestCodeTC = composeWithMongoose(TestCode);
+const GuestEnquiryTC = exports.GuestEnquiryTC = composeWithMongoose(GuestEnquiry, GuestEnquiryTCOptions);
 
 
 /**
