@@ -39,7 +39,8 @@ const {
 	ViewerAdminTC,
 	PaymentTC,
 	TestCodeTC,
-	GuestEnquiryTC
+	GuestEnquiryTC,
+	NewsletterSubscriberTC
 } = typeComposers;
 
 //Add relationships and resolvers to schema
@@ -81,6 +82,9 @@ GQC.rootMutation().addFields({
 
 	// unauthorized User Mutations
 	createEnquiry: GuestEnquiryTC.getResolver('createOne'),
+	subscribeToNewsletter: NewsletterSubscriberTC.getResolver('createOne'),
+	unsubscribeNewsletter: NewsletterSubscriberTC.getResolver('unsubscribe'),
+
 	loginUser: UserTC.getResolver('loginWithEmail'),
 
 	// unauthorized Candidate Mutations

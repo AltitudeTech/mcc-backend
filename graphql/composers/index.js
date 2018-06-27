@@ -18,6 +18,8 @@ const Price = keystone.list('Price').model;
 const TestCode = keystone.list('TestCode').model;
 
 const GuestEnquiry = keystone.list('GuestEnquiry').model;
+// const Newsletter = keystone.list('Newsletter').model;
+const NewsletterSubscriber = keystone.list('NewsletterSubscriber').model;
 
 /**
 * Config
@@ -102,7 +104,7 @@ const GuestEnquiryTCOptions = {
     createOne: {
       record: {
         removeFields: [
-          'createdAt', '_id'
+          'createdAt', '_id', 'unsubcribeCode', 'isActive'
         ]
       }
     }
@@ -123,6 +125,7 @@ const PaymentTC = exports.PaymentTC = composeWithMongoose(Payment, PaymentTCOpti
 const PriceTC = exports.PriceTC = composeWithMongoose(Price);
 const TestCodeTC = exports.TestCodeTC = composeWithMongoose(TestCode);
 const GuestEnquiryTC = exports.GuestEnquiryTC = composeWithMongoose(GuestEnquiry, GuestEnquiryTCOptions);
+const NewsletterSubscriberTC = exports.NewsletterSubscriberTC = composeWithMongoose(NewsletterSubscriber, GuestEnquiryTCOptions);
 
 
 /**

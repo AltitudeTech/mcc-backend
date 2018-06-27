@@ -14,9 +14,9 @@ var NewsletterSubscriber = new keystone.List('NewsletterSubscriber', {
 });
 
 NewsletterSubscriber.add({
-	email: { type: Types.Email, required: true },
-	createdAt: { type: Date, default: Date.now },
-	isActive: {type: Boolean, default: true},
+	email: { type: Types.Email, required: true, unique: true, index: true },
+	createdAt: { type: Date, default: Date.now, index: true },
+	isActive: {type: Boolean, default: true, index: true},
 	unsubcribeCode: { type: Types.Text }
 });
 

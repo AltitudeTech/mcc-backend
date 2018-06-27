@@ -3,6 +3,7 @@ const candidateResolvers = require('./candidate')
 const placeholderResolvers = require('./placeholder')
 const paymentResolvers = require('./payment')
 const institutionResolvers = require('./institution')
+const newsletterSubscriberResolvers = require('./newsletterSubscriber')
 // const AdminResolvers = require('./admin')
 
 module.exports = addResolvers = () => {
@@ -11,5 +12,6 @@ module.exports = addResolvers = () => {
   placeholderResolvers();
   candidateResolvers();
   institutionResolvers();
+  newsletterSubscriberResolvers();
   // AdminResolvers();
 }
