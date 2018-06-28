@@ -15,30 +15,42 @@ Newsletter.add({
 	preHeader: { type: Types.Text, required: true, initial: true },
 	subject: { type: Types.Text, default: 'MCC Newsletter', required: true, initial: true },
 	content: { type: Types.Html, wysiwyg: true, height: 250, initial: true },
-	state: { type: Types.Select, options: 'draft, published', default: 'draft', index: true, dependsOn: { isSent: false } },
 	createdAt: { type: Date, default: Date.now, noedit: true },
-	sentAt: { type: Date, noedit: true },
-	isSent: { type: Boolean, noedit: true },
 	// sentTo: { type: Types.Relationship, ref: 'NewsletterSubscriber', many: true },
-});
+}, 'To send out this newsletter set the <state> below to published, save and refresh the page',{
+	state: { type: Types.Select, options: 'draft, published', default: 'draft', index: true, dependsOn: { isSent: false } },
+	isSent: { type: Boolean, noedit: true },
+	sentAt: { type: Date, noedit: true },
+}, 'if the <state> field is missing it means this newsletter has already been sent and will not be resent');
 
-// Newsletter.schema.pre('save', function (next) {
-// 	// this.wasNew = this.isNew;
-// 	next();
-// });
-
-Newsletter.schema.post('save', async function () {
+Newsletter.schema.pre('save', async function (next) {
 	if (this.state == 'published' && !this.isSent) {
 		// console.log('sending newsletter');
 		try {
 			await this.sendNewsletter();
+			this.sentAt = Date.now();
 			this.isSent = true;
-			this.save();
+			next();
 		} catch (e) {
 			console.log(e);
+			next(e);
 		}
 	}
 });
+
+// Newsletter.schema.post('save', async function () {
+// 	if (this.state == 'published' && !this.isSent) {
+// 		// console.log('sending newsletter');
+// 		try {
+// 			await this.sendNewsletter();
+// 			this.isSent = true;
+// 			this.sentAt = Date.now;
+// 			this.save();
+// 		} catch (e) {
+// 			console.log(e);
+// 		}
+// 	}
+// });
 
 Newsletter.schema.methods.sendNewsletter = function () {
 	var newsletter = this;
@@ -57,7 +69,7 @@ Newsletter.schema.methods.sendNewsletter = function () {
 			templateName: 'newsletter',
 			transport: 'mailgun',
 		}).send({
-			to: 'subscriber@mycareerchoice.global',
+			to: 'subscribers@mycareerchoice.global',
 			from: {
 				name: 'MCC',
 				email: 'contact@mycareerchoice.global',
@@ -67,11 +79,8 @@ Newsletter.schema.methods.sendNewsletter = function () {
 			brandDetails,
 		}, (err)=>{
 			if (err) {
-				console.log(err);
 				reject(err);
 			}
-			// newsletter.sentTo = newsletterSubscribers.map(subscriber=>subscriber._id);
-			// newsletter.save();
 		});
 		resolve();
 	})

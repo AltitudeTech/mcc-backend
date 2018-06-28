@@ -141,7 +141,7 @@ const GuestEnquiryTC = exports.GuestEnquiryTC = composeWithMongoose(GuestEnquiry
 /**
 * Add JWT to user models for login
 */
-UserTC.addFields({jwt: 'String'})
+UserTC.addFields({jwt: 'String', userType: 'String'})
 CandidateTC.addFields({jwt: 'String'})
 InstitutionTC.addFields({jwt: 'String'})
 AdminTC.addFields({jwt: 'String'})
@@ -154,6 +154,6 @@ const ViewerInstitutionTC = exports.ViewerInstitutionTC = GQC.getOrCreateTC('Vie
 const ViewerAdminTC = exports.ViewerAdminTC = GQC.getOrCreateTC('ViewerAdmin');
 
 const NewsletterSubscriberTC = exports.NewsletterSubscriberTC = GQC.getOrCreateTC('NewsletterSubscriber');
-NewsletterSubscriberTC.addFields({email: 'String'})
+NewsletterSubscriberTC.addFields({address: 'String', subscribed: 'Boolean', name: 'String'})
 
 const PlaceHolderTC = exports.PlaceHolderTC = GQC.getOrCreateTC('PlaceHolder');

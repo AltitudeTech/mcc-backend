@@ -51,6 +51,9 @@ addResolvers();
 //Add fields and resolvers to rootQuery
 GQC.rootQuery().addFields({
 	// user: UserTC.getResolver('findOne'),
+	...authAccess({sourceUserType: 'User'}, {
+		userIsAuthenticated: UserTC.getResolver('isAuthenticated'),
+	}),
 	...authAccess({sourceUserType: 'Candidate'}, {
 		candidateIsAuthenticated: UserTC.getResolver('isAuthenticated'),
     viewerCandidate: ViewerCandidateTC.getResolver('candidateAccess'),

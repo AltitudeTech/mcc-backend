@@ -33,7 +33,8 @@ module.exports = {
               // context.user = Promise.resolve(user);
               resolve({
                 name: user.name,
-                jwt: token
+                jwt: token,
+                userType:  user.__t || 'user'
               });
             }
             reject('password incorrect');

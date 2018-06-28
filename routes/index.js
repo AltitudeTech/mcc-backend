@@ -43,6 +43,7 @@ exports = module.exports = function (app) {
 		if (req.user) {
 			context = {
 				//user: req.user ? User.findOne({ _id: req.user._id || req.user.id, version: req.user.version}) : Promise.resolve(null),
+				User: req.user.type ? Promise.resolve(req.user) : Promise.resolve(null),
 				Candidate: req.user.type==='Candidate' ?
 					Candidate.findOne({ _id: req.user._id || req.user.id}) : Promise.resolve(null),
 				Institution: req.user.type==='Institution' ?
@@ -83,7 +84,7 @@ exports = module.exports = function (app) {
 				templateName: 'newsletter',
 				transport: 'mailgun',
 			}).render({
-				to: 'subscriber@mycareerchoice.global',
+				to: 'subscribers@mycareerchoice.global',
 				from: {
 					name: 'MCC',
 					email: 'contact@mycareerchoice.global',
