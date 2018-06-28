@@ -19,7 +19,6 @@ const TestCode = keystone.list('TestCode').model;
 
 const GuestEnquiry = keystone.list('GuestEnquiry').model;
 // const Newsletter = keystone.list('Newsletter').model;
-const NewsletterSubscriber = keystone.list('NewsletterSubscriber').model;
 
 /**
 * Config
@@ -138,7 +137,6 @@ const PaymentTC = exports.PaymentTC = composeWithMongoose(Payment, PaymentTCOpti
 const PriceTC = exports.PriceTC = composeWithMongoose(Price);
 const TestCodeTC = exports.TestCodeTC = composeWithMongoose(TestCode);
 const GuestEnquiryTC = exports.GuestEnquiryTC = composeWithMongoose(GuestEnquiry, GuestEnquiryTCOptions);
-const NewsletterSubscriberTC = exports.NewsletterSubscriberTC = composeWithMongoose(NewsletterSubscriber, NewsletterSubscriberTCTCOptions);
 
 /**
 * Add JWT to user models for login
@@ -154,5 +152,8 @@ AdminTC.addFields({jwt: 'String'})
 const ViewerCandidateTC = exports.ViewerCandidateTC = GQC.getOrCreateTC('ViewerCandidate');
 const ViewerInstitutionTC = exports.ViewerInstitutionTC = GQC.getOrCreateTC('ViewerInstitution');
 const ViewerAdminTC = exports.ViewerAdminTC = GQC.getOrCreateTC('ViewerAdmin');
+
+const NewsletterSubscriberTC = exports.NewsletterSubscriberTC = GQC.getOrCreateTC('NewsletterSubscriber');
+NewsletterSubscriberTC.addFields({email: 'String'})
 
 const PlaceHolderTC = exports.PlaceHolderTC = GQC.getOrCreateTC('PlaceHolder');

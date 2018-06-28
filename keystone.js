@@ -53,7 +53,7 @@ keystone.set('nav', {
 	payments: ['Payment', 'TestCode'],
 	//poll: ['Poll', 'PollVote'],
 	country: ['State', 'LocalGovernment'],
-	newsletter: ['Newsletter', 'NewsletterSubscriber'],
+	newsletter: 'Newsletter',
 	//posts: ['posts', 'post-categories'],
 	//galleries: 'galleries',
 	enquiries: ['GuestEnquiry','enquiries'],
@@ -84,7 +84,6 @@ function checkEnv(envVariable) {
 checkEnv('FRONT_END_URL');
 checkEnv('JWT_SECRET');
 checkEnv('ACTIVATION_JWT_SECRET');
-checkEnv('NEWSLETTER_JWT_SECRET');
 checkEnv('PAYSTACK_SECRET_KEY');
 
 if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
