@@ -3,6 +3,7 @@ const cors = require('cors');
 const jwt = require('express-jwt');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+const mailgun = require('mailgun-js')({apiKey: process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN});
 
 const schema = require('../graphql/schema-compose');
 
@@ -69,9 +70,35 @@ exports = module.exports = function (app) {
 		});
 	});
 	app.get('/testactivation', (req, res) => {
-		keystone.list('Candida').model.find({"email":{$ne:null}}).exec(function (err, users) {
+		keystone.list('Candidate').model.find({"email":{$ne:null}}).exec(function (err, users) {
 			users.forEach(user=>user.sendActivationLink());
 			res.json(users.map(user=>user.email))
+		});
+	});
+	app.get('/testnewsletter', (req, res) => {
+		keystone.list('Newsletter').model.findOne().exec(function (err, newsletter) {
+			const brandDetails = keystone.get('brandDetails');
+
+			new keystone.Email({
+				templateName: 'newsletter',
+				transport: 'mailgun',
+			}).render({
+				to: 'subscriber@mycareerchoice.global',
+				from: {
+					name: 'MCC',
+					email: 'contact@mycareerchoice.global',
+				},
+				subject: newsletter.subject,
+				newsletter,
+				brandDetails,
+			}, (err, { html, text }) => res.send(html));
+		});
+	});
+	app.get('/maillist', (req, res) => {
+		const list = mailgun.lists('subscribers@mycareerchoice.global');
+		list.members().list(function (err, members) {
+		  // `members` is the list of members
+		  res.json(members);
 		});
 	});
 

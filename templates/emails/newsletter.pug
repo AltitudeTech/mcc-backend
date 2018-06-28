@@ -308,8 +308,8 @@ table.body(border='0', cellpadding='0', cellspacing='0')
                 tr
                   td
                     p Hi there,
-                    div
-                      | #{newsletter.content}
+                    
+                    p !{newsletter.content}
 
                     p For additional help, visit our Support Center.
                     
@@ -317,8 +317,9 @@ table.body(border='0', cellpadding='0', cellspacing='0')
                     
                     p 
                       | This email was sent to %recipient_email%.
-                      | You're receiving this email because you're subscribed to the MCC newsletter. If you'd rather not see us in your inbox in the future, please &nbsp;
-                      a( target='_blank') unsubcribe. %unsubscribe_url%
+                      | You're receiving this email because you're subscribed to the MCC newsletter. If you'd rather not see us in your inbox in the future, please&nbsp;
+                      a( href='%mailing_list_unsubscribe_url%' target='_blank') unsubcribe
+                      |.
           // END MAIN CONTENT AREA
         // START FOOTER
         .footer

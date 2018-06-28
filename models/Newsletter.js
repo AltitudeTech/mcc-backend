@@ -15,20 +15,28 @@ Newsletter.add({
 	preHeader: { type: Types.Text, required: true, initial: true },
 	subject: { type: Types.Text, default: 'MCC Newsletter', required: true, initial: true },
 	content: { type: Types.Html, wysiwyg: true, height: 250, initial: true },
-	state: { type: Types.Select, options: 'draft, published', default: 'draft', index: true },
-	createdAt: { type: Date, default: Date.now },
-	sentTo: { type: Types.Relationship, ref: 'NewsletterSubscriber', many: true },
+	state: { type: Types.Select, options: 'draft, published', default: 'draft', index: true, dependsOn: { isSent: false } },
+	createdAt: { type: Date, default: Date.now, noedit: true },
+	sentAt: { type: Date, noedit: true },
+	isSent: { type: Boolean, noedit: true },
+	// sentTo: { type: Types.Relationship, ref: 'NewsletterSubscriber', many: true },
 });
 
-Newsletter.schema.pre('save', function (next) {
-	this.wasNew = this.isNew;
-	next();
-});
+// Newsletter.schema.pre('save', function (next) {
+// 	// this.wasNew = this.isNew;
+// 	next();
+// });
 
-Newsletter.schema.post('save', function () {
-	if (this.state == 'published') {
+Newsletter.schema.post('save', async function () {
+	if (this.state == 'published' && !this.isSent) {
 		// console.log('sending newsletter');
-		this.sendNewsletter();
+		try {
+			await this.sendNewsletter();
+			this.isSent = true;
+			this.save();
+		} catch (e) {
+			console.log(e);
+		}
 	}
 });
 
@@ -49,8 +57,7 @@ Newsletter.schema.methods.sendNewsletter = function () {
 			templateName: 'newsletter',
 			transport: 'mailgun',
 		}).send({
-			// 'recipient-variables': newsletterSubscribers.reduce((a, b) => Object.assign(a, b), {})
-			to: 'subscriber@mycarrerchoice.global',
+			to: 'subscriber@mycareerchoice.global',
 			from: {
 				name: 'MCC',
 				email: 'contact@mycareerchoice.global',
@@ -67,35 +74,9 @@ Newsletter.schema.methods.sendNewsletter = function () {
 			// newsletter.save();
 		});
 		resolve();
-
-		/*keystone.list('NewsletterSubscriber').model.find({isActive: true}).exec(function (err, newsletterSubscribers) {
-			if (err) reject(err);
-			new keystone.Email({
-				templateName: 'newsletter',
-				transport: 'mailgun',
-			}).send({
-				'recipient-variables': newsletterSubscribers.reduce((a, b) => Object.assign(a, b), {})
-				to: newsletterSubscribers.map(subscriber=>subscriber.email),
-				from: {
-					name: 'MCC',
-					email: 'contact@mycareerchoice.global',
-				},
-				subject: newsletter.subject,
-				newsletter,
-				brandDetails,
-			}, (err)=>{
-				if (err) {
-					console.log(err);
-					reject(err);
-				}
-				newsletter.sentTo = newsletterSubscribers.map(subscriber=>subscriber._id);
-				newsletter.save();
-			});
-			resolve();
-		});*/
 	})
 };
 
 Newsletter.defaultSort = '-createdAt';
-Newsletter.defaultColumns = 'name, email, enquiryType, createdAt';
+Newsletter.defaultColumns = 'title, subject, state, createdAt';
 Newsletter.register();
