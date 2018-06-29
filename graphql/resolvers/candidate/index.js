@@ -2,7 +2,7 @@ const { CandidateTC } = require('../../composers');
 
 module.exports = () => {
 
-  CandidateTC.addResolver(require('./signUp'))
+  CandidateTC.addResolver(require('./createAccount'))
 
   CandidateTC.addResolver(require('./activateAccount'))
 }

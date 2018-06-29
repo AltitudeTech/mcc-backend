@@ -91,12 +91,12 @@ GQC.rootMutation().addFields({
 	loginUser: UserTC.getResolver('loginWithEmail'),
 
 	// unauthorized Candidate Mutations
-	signUpCandidate: CandidateTC.getResolver('signUp'),
-	activateCandidateAccount: CandidateTC.getResolver('activateAccount'),
+	candidateCreateAccount: CandidateTC.getResolver('createAccount'),
+	candidateActivateAccount: CandidateTC.getResolver('activateAccount'),
 
 	// unauthorized Institution Mutations
-	signUpInstitution: InstitutionTC.getResolver('signUp'),
-	activateInstitutionAccount: InstitutionTC.getResolver('activateAccount'),
+	institutionCreateAccount: InstitutionTC.getResolver('createAccount'),
+	institutionActivateAccount: InstitutionTC.getResolver('activateAccount'),
 
 	// loginAdmin: AdminTC.getResolver('loginWithPhone'),
 	// signUpAdmin: AdminTC.getResolver('signUp'),

@@ -1,6 +1,6 @@
 const { InstitutionTC } = require('../../composers');
 
 module.exports = () => {
-  InstitutionTC.addResolver(require('./signUp'))
+  InstitutionTC.addResolver(require('./createAccount'))
   InstitutionTC.addResolver(require('./activateAccount'))
 }

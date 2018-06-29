@@ -14,11 +14,21 @@ const Candidate = new keystone.List('Candidate', {
 });
 
 Candidate.add('Candidate', {
-	phone: { type: Types.Text, initial: true, required: true, unique: true, sparse: true },
+	name: { type: Types.Text, index: true },
+	firstName: { type: Types.Text, required: true, initial: true, index: true },
+	lastName: { type: Types.Text, required: true, initial: true, index: true },
+	phone: { type: Types.Text, initial: true, unique: true, sparse: true },
 	isActivated: { type: Boolean, default: false }
 });
 
 //Model Hooks
+Candidate.schema.pre('save',async function (next) {
+	if (this.firstName) this.firstName = toCamelCase(this.firstName);
+	if (this.lastName) this.lastName = toCamelCase(this.lastName);
+	this.name = `${this.lastName} ${this.firstName}`
+	next();
+})
+
 Candidate.schema.post('save',async function () {
 	if (this.wasNew) {
 		try {

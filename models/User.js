@@ -11,7 +11,7 @@ const User = new keystone.List('User');
 User.schema.set('usePushEach', true);
 
 User.add({
-	name: { type: Types.Name, required: true, index: true },
+	name: { type: Types.Text, index: true },
 	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
 	password: { type: Types.Password, initial: true, required: true },
 	passwordVersion: { type: Types.Text, initial: false, required: true, default: 1},
@@ -29,14 +29,9 @@ User.schema.virtual('canAccessKeystone').get(function () {
 User.schema.pre('save', function (next) {
 	// console.log('saving user');
 	this.wasNew = this.isNew;
-	if (this.name) {
-		if (this.name.first) {
-			this.name.first = toCamelCase(this.name.first);
-		}
-		if (this.name.last) {
-			this.name.last = toCamelCase(this.name.last);
-		}
-	}
+
+	if (this.name) this.name = toCamelCase(this.name);
+
 	if (this.phone) {
 		if (PHONE_REGEX.test(this.phone)){
 			next();
