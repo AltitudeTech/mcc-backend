@@ -30,8 +30,10 @@ module.exports = {
             type: 'Candidate',
             //passwordVersion: candidate.passwordVersion,
           }, process.env.JWT_SECRET);
-          candidate.jwt = token;
-          return candidate;
+          return {
+            ...candidate,
+            jwt: token,
+          };
         }).catch((err) => {
           return Promise.reject('Cannot create record, Please try again');
         })

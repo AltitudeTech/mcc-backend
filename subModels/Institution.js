@@ -29,7 +29,7 @@ Institution.add('Institution',{
 	name: { type: String, required: true, index: true },
 	// cacRegNo: { type: Types.Text, initial: true, index: true, required: true, unique: true, sparse: true },
 	phone: { type: Types.Text, initial: true, required: true, unique: true, sparse: true },
-	isActivated: { type: Boolean, default: false },
+	isActivated: { type: Boolean, default: false, noedit: true },
 	// logoUrl: { type: Types.Text, initial: true },
 	website: { type: Types.Url, initial: true },
 	address: { type: Types.Text, initial: true },

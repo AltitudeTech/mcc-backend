@@ -29,8 +29,10 @@ module.exports = {
             type: 'Institution',
             //passwordVersion: institution.passwordVersion,
           }, process.env.JWT_SECRET);
-          institution.jwt = token;
-          return institution;
+          return {
+            institution,
+            jwt: token
+          };
         }).catch((err) => {
           return Promise.reject('Cannot create record, Please try again');
         })

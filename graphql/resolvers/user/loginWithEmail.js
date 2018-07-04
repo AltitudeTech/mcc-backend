@@ -25,12 +25,11 @@ module.exports = {
             if (isMatch) {
               // create jwt
               const token = jwt.sign({
-                _id: user._id,
-                email: user.email,
+                id: user._id,
+                // email: user.email,
                 type: user.__t ? user.__t : 'User',
                 //passwordVersion: user.passwordVersion,
               }, process.env.JWT_SECRET);
-              // context.user = Promise.resolve(user);
               resolve({
                 name: user.name,
                 jwt: token,

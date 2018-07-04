@@ -18,7 +18,7 @@ Candidate.add('Candidate', {
 	firstName: { type: Types.Text, required: true, initial: true, index: true },
 	lastName: { type: Types.Text, required: true, initial: true, index: true },
 	phone: { type: Types.Text, initial: true, unique: true, sparse: true },
-	isActivated: { type: Boolean, default: false }
+	isActivated: { type: Boolean, default: false, noedit: true }
 });
 
 //Model Hooks

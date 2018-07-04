@@ -23,6 +23,10 @@ const GuestEnquiry = keystone.list('GuestEnquiry').model;
 /**
 * Config
 */
+const privateUserFields = [
+  'password', 'passwordVersion','isAdmin'
+]
+
 const UserTCOptions = {
   fields : {
     remove: ['password', 'passwordVersion','isAdmin']
@@ -47,7 +51,7 @@ const CandidateTCOptions = {
     updateById: {
       record: {
         removeFields: [
-          'phone', 'password','passwordVersion'
+          'phone', 'password','passwordVersion','isActivated'
         ]
       }
     }
@@ -81,7 +85,7 @@ const InstitutionTCOptions = {
       record: {
         removeFields: [
           'jobs', 'cacRegNo', 'password', 'passwordVersion',
-          'isVerified', 'isActive'
+          'isVerified', 'isActive', 'phone', 'isActivated'
         ]
       }
     }
