@@ -23,7 +23,7 @@ keystone.init({
 	'auto update': true,
 	'session': true,
 	'auth': true,
-	'user model': 'User',
+	'user model': 'keystoneAdmin',
 });
 
 // Load your project's Models
@@ -46,19 +46,20 @@ keystone.set('routes', require('./routes'));
 
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
-	candidates: ['Candidate'],
+	payments: ['Payment', 'TestCode'],
+	candidates: ['Candidate', 'Notification', 'NotificationReadReceipt'],
 	//CandidateDocuments: ['CandidateDocument', 'SkillAnalysisResult', 'SeekerResult', 'StartupResult'],
 	Institutions: ['Institution', 'Industry'],
+	Marketing: ['MccAffiliate', 'MccCoupon'],
 	Admin: 'Admin',
-	payments: ['Payment', 'TestCode'],
 	//poll: ['Poll', 'PollVote'],
-	country: ['State', 'LocalGovernment'],
 	newsletter: 'Newsletter',
+	country: ['State', 'LocalGovernment'],
 	//posts: ['posts', 'post-categories'],
 	//galleries: 'galleries',
 	enquiries: ['GuestEnquiry','enquiries'],
 	Ictdatas : ['Ictdata'],
-	users: 'users',
+	users: ['keystoneAdmin', 'users'],
 });
 
 // Configure cloudinary

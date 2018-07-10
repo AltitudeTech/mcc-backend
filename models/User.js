@@ -15,14 +15,6 @@ User.add({
 	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
 	password: { type: Types.Password, initial: true, required: true },
 	passwordVersion: { type: Types.Text, initial: false, required: true, default: 1},
-}, 'Permissions', {
-	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
-	recieveGuestEnquiries: { type: Boolean, label: 'receives notification email when an equiry is made', index: true },
-});
-
-// Provide access to Keystone
-User.schema.virtual('canAccessKeystone').get(function () {
-	return this.isAdmin;
 });
 
 // Model Hooks
@@ -43,11 +35,11 @@ User.schema.pre('save', function (next) {
 	}
 });
 
-
 /**
  * Relationships
  */
-User.relationship({ ref: 'Post', path: 'posts', refPath: 'author' });
+// User.relationship({ ref: 'Post', path: 'posts', refPath: 'author' });
+User.relationship({ ref: 'NotificationReadReceipt', path: 'readReceipts', refPath: 'user' });
 
 
 /**

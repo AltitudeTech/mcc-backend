@@ -40,7 +40,8 @@ const {
 	PaymentTC,
 	TestCodeTC,
 	GuestEnquiryTC,
-	NewsletterSubscriberTC
+	NewsletterSubscriberTC,
+	ViewerMccAffiliateTC
 } = typeComposers;
 
 //Add relationships and resolvers to schema
@@ -70,9 +71,13 @@ GQC.rootQuery().addFields({
 		//institutionJobById: findSelfRelationship('jobs', JobTC),
 		// institutionJobsPagination: findSelfRelationship('jobs', JobTC),
 	}),
+	...authAccess({sourceUserType: 'MccAffiliate'}, {
+		mccAffiliateIsAuthenticated: UserTC.getResolver('isAuthenticated'),
+		viewerMccAffiliate: ViewerMccAffiliateTC.getResolver('mccAffiliateAccess'),
+	}),
 	...authAccess({sourceUserType: 'Admin'}, {
 		viewerAdmin: ViewerAdminTC.getResolver('adminAccess'),
-		managerCandidateById: CandidateTC.getResolver('findById'),
+		// managerCandidateById: CandidateTC.getResolver('findById'),
 	}),
 	currentTime: {
 		type: 'Date',

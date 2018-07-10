@@ -5,15 +5,15 @@ const jwt = require('jsonwebtoken');
 const { STATES, GENDERS, CANDIDATE_CATEGORIES, PHONE_REGEX, toCamelCase  } = require('../lib/common');
 
 /**
- * Candidate Model
+ * MccAffiliate Model
  * ==========
  */
-const Candidate = new keystone.List('Candidate', {
+const MccAffiliate = new keystone.List('MccAffiliate', {
 	track: true,
 	inherits: keystone.list('User')
 });
 
-Candidate.add('Candidate', {
+MccAffiliate.add('MccAffiliate', {
 	name: { type: Types.Text, index: true },
 	firstName: { type: Types.Text, required: true, initial: true, index: true },
 	lastName: { type: Types.Text, required: true, initial: true, index: true },
@@ -23,25 +23,25 @@ Candidate.add('Candidate', {
 });
 
 //Model Hooks
-Candidate.schema.pre('save',async function (next) {
+MccAffiliate.schema.pre('save',async function (next) {
 	if (this.firstName) this.firstName = toCamelCase(this.firstName);
 	if (this.lastName) this.lastName = toCamelCase(this.lastName);
 	this.name = `${this.lastName} ${this.firstName}`
 	next();
 })
 
-Candidate.schema.post('save',async function () {
+MccAffiliate.schema.post('save',async function () {
 	if (this.wasNew) {
-		try {
-			this.sendActivationLink();
-		} catch (e) {
-			console.log(e);
-		}
+		// try {
+		// 	this.sendActivationLink();
+		// } catch (e) {
+		// 	console.log(e);
+		// }
 	}
 });
 
 // Methods
-Candidate.schema.methods.sendActivationLink = function () {
+MccAffiliate.schema.methods.sendActivationLink = function () {
 	const user = this;
 	return new Promise(function(resolve, reject) {
 		console.log("sending user activation email");
@@ -89,11 +89,11 @@ Candidate.schema.methods.sendActivationLink = function () {
 /**
  * Relationships
  */
-Candidate.relationship({ ref: 'Payment', path: 'payments', refPath: 'madeBy' });
+MccAffiliate.relationship({ ref: 'Payment', path: 'payments', refPath: 'madeBy' });
 
 
 /**
  * Registration
  */
-Candidate.defaultColumns = 'name, phone, email';
-Candidate.register();
+MccAffiliate.defaultColumns = 'name, phone, email';
+MccAffiliate.register();

@@ -11,6 +11,7 @@ const User = keystone.list('User').model;
 const Candidate = keystone.list('Candidate').model;
 const Institution = keystone.list('Institution').model;
 const Admin = keystone.list('Admin').model;
+const MccAffiliate = keystone.list('MccAffiliate').model;
 
 // Setup Route Bindings
 exports = module.exports = function (app) {
@@ -45,11 +46,13 @@ exports = module.exports = function (app) {
 				//user: req.user ? User.findOne({ _id: req.user._id || req.user.id, version: req.user.version}) : Promise.resolve(null),
 				User: req.user.type ? Promise.resolve(req.user) : Promise.resolve(null),
 				Candidate: req.user.type==='Candidate' ?
-					Candidate.findOne({ _id: req.user._id || req.user.id}) : Promise.resolve(null),
+					Candidate.findById(req.user.id) : Promise.resolve(null),
 				Institution: req.user.type==='Institution' ?
-					Institution.findOne({ _id: req.user._id || req.user.id}) : Promise.resolve(null),
+					Institution.findById(req.user.id) : Promise.resolve(null),
 				Admin: req.user.type==='Admin' ?
-					Admin.findOne({ _id: req.user._id || req.user.id}) : Promise.resolve(null),
+					Admin.findById(req.user.id) : Promise.resolve(null),
+				MccAffiliate: req.user.type==='MccAffiliate' ?
+					MccAffiliate.findById(req.user.id) : Promise.resolve(null),
 			}
 		}
 		return ({
