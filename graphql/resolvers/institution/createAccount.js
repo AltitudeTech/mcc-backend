@@ -30,7 +30,7 @@ module.exports = {
             //passwordVersion: institution.passwordVersion,
           }, process.env.JWT_SECRET);
           return {
-            institution,
+            name: institution.name,
             jwt: token
           };
         }).catch((err) => {

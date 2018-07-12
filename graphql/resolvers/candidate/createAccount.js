@@ -31,7 +31,7 @@ module.exports = {
             //passwordVersion: candidate.passwordVersion,
           }, process.env.JWT_SECRET);
           return {
-            ...candidate,
+            name: candidate.name,
             jwt: token,
           };
         }).catch((err) => {
