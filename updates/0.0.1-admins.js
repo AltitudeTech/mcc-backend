@@ -8,7 +8,7 @@
  */
 
 exports.create = {
-	User: [
+	keystoneAdmin: [
 		{ 'name': 'Admin User', 'email': 'user@keystonejs.com', 'password': 'admin', 'isAdmin': true },
 	],
 };
