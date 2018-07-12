@@ -19,7 +19,7 @@ Candidate.add('Candidate', {
 	lastName: { type: Types.Text, required: true, initial: true, index: true },
 	phone: { type: Types.Text, initial: true, unique: true, sparse: true },
 	isActivated: { type: Boolean, default: false, noedit: true },
-	coupon: { type: Types.Relationship, ref: 'MccCoupon', required: true, initial: true}
+	coupon: { type: Types.Relationship, ref: 'MccCoupon', initial: true}
 });
 
 //Model Hooks
