@@ -12,13 +12,13 @@ var Price = new keystone.List('Price', {
 });
 
 Price.add({
-  price: { type: Types.Text, required: true, index: true, initial: true },
+  mccPrice: { type: Types.Number, required: true, index: true, initial: true },
   description: { type: Types.Text, index: true, initial: true },
 });
 
 /**
  * Registration
  */
-Price.defaultSort = 'createdAt';
-Price.defaultColumns = 'price, description, createdAt';
+Price.defaultSort = '-createdAt';
+Price.defaultColumns = 'mccPrice, description, createdAt';
 Price.register();

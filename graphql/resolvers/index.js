@@ -5,6 +5,7 @@ const paymentResolvers = require('./payment')
 const institutionResolvers = require('./institution')
 const newsletterSubscriberResolvers = require('./newsletterSubscriber')
 const notificationResolvers = require('./notification')
+const priceResolvers = require('./price')
 // const AdminResolvers = require('./admin')
 
 module.exports = addResolvers = () => {
@@ -15,5 +16,6 @@ module.exports = addResolvers = () => {
   institutionResolvers();
   notificationResolvers();
   newsletterSubscriberResolvers();
+  priceResolvers();
   // AdminResolvers();
 }

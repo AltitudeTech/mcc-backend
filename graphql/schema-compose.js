@@ -41,7 +41,8 @@ const {
 	TestCodeTC,
 	GuestEnquiryTC,
 	NewsletterSubscriberTC,
-	ViewerMccAffiliateTC
+	ViewerMccAffiliateTC,
+	PriceTC
 } = typeComposers;
 
 //Add relationships and resolvers to schema
@@ -53,6 +54,7 @@ addResolvers();
 GQC.rootQuery().addFields({
 	// user: UserTC.getResolver('findOne'),
 	...authAccess({sourceUserType: 'User'}, {
+		price: PriceTC.getResolver('latestPrice'),
 		userIsAuthenticated: UserTC.getResolver('isAuthenticated'),
 	}),
 	...authAccess({sourceUserType: 'Candidate'}, {

@@ -60,6 +60,7 @@ exports = module.exports = function (app) {
 		  context: context
 		})}
 	));
+
 	app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
 
 	// Views
