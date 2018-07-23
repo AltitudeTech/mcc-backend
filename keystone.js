@@ -23,7 +23,7 @@ keystone.init({
 	'auto update': true,
 	'session': true,
 	'auth': true,
-	'user model': 'keystoneAdmin',
+	'user model': 'keystoneMccAdmin',
 });
 
 // Load your project's Models
@@ -59,7 +59,7 @@ keystone.set('nav', {
 	//galleries: 'galleries',
 	enquiries: ['GuestEnquiry','enquiries'],
 	Ictdatas : ['Ictdata'],
-	users: ['keystoneAdmin', 'users'],
+	users: ['keystoneMccAdmin', 'users'],
 });
 
 // Configure cloudinary

@@ -2,7 +2,7 @@ const keystone = require('keystone');
 var Types = keystone.Field.Types;
 const jwt = require('jsonwebtoken');
 
-const { STATES, GENDERS, CANDIDATE_CATEGORIES, PHONE_REGEX, toCamelCase  } = require('../lib/common');
+const { GENDERS, PHONE_REGEX, toCamelCase  } = require('../lib/common');
 
 /**
  * MccAffiliate Model
@@ -14,12 +14,19 @@ const MccAffiliate = new keystone.List('MccAffiliate', {
 });
 
 MccAffiliate.add('MccAffiliate', {
-	name: { type: Types.Text, index: true },
 	firstName: { type: Types.Text, required: true, initial: true, index: true },
 	lastName: { type: Types.Text, required: true, initial: true, index: true },
 	phone: { type: Types.Text, initial: true, unique: true, sparse: true },
-	isActivated: { type: Boolean, default: false, noedit: true },
-	coupon: { type: Types.Relationship, ref: 'MccCoupon', required: true, initial: true}
+	workAddress: { type: Types.Text, initial: true },
+	physicalAddress: { type: Types.Text, initial: true },
+	// coupon: { type: Types.Relationship, ref: 'MccCoupon', required: false, initial: true},
+	referee1: { type: Types.Relationship, ref: 'Referee', index: true},
+	referee2: { type: Types.Relationship, ref: 'Referee', index: true},
+	comments: { type: Types.Html, wysiwyg: true, height: 250 },
+}, 'Status', {
+	isActivated: { type: Boolean, default: false, noedit: true, label: 'email is confirmed' },
+	isApproved: { type: Boolean, default: false },
+	isActive: { type: Boolean, default: false },
 });
 
 //Model Hooks
@@ -27,20 +34,28 @@ MccAffiliate.schema.pre('save',async function (next) {
 	if (this.firstName) this.firstName = toCamelCase(this.firstName);
 	if (this.lastName) this.lastName = toCamelCase(this.lastName);
 	this.name = `${this.lastName} ${this.firstName}`
+	if (this.isModified("isApproved")) {
+		if (this.isApproved) this.sendVerificationConfirmationMail()
+	}
+	if (this.isModified("isActive")) {
+		if (this.isActive) this.sendActiveConfirmationMail()
+	}
 	next();
 })
 
 MccAffiliate.schema.post('save',async function () {
-	if (this.wasNew) {
-		// try {
-		// 	this.sendActivationLink();
-		// } catch (e) {
-		// 	console.log(e);
-		// }
+	try {
+		if (this.wasNew) {
+			this.sendActivationLink();
+			this.sendAdminNotificationEmail();
+		}
+	} catch (e) {
+		console.log(e);
 	}
 });
 
 // Methods
+// console.log(MccAffiliate.schema.methods);
 MccAffiliate.schema.methods.sendActivationLink = function () {
 	const user = this;
 	return new Promise(function(resolve, reject) {
@@ -63,7 +78,7 @@ MccAffiliate.schema.methods.sendActivationLink = function () {
 			const activationLink = `${process.env.FRONT_END_URL}/activate?code=${code}`
 
 			new keystone.Email({
-				templateName: 'activate-account',
+				templateName: 'activate-affiliate-account',
 				transport: 'mailgun',
 			}).send({
 				to: [user.email],
@@ -86,14 +101,130 @@ MccAffiliate.schema.methods.sendActivationLink = function () {
 	});
 }
 
+MccAffiliate.schema.methods.sendAdminNotificationEmail = function () {
+	var affiliate = this;
+
+	return new Promise(function(resolve, reject) {
+		console.log("sending affiliate notification email");
+
+		if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
+			console.log('Unable to send email - no mailgun credentials provided');
+			return callback(new Error('could not find mailgun credentials'));
+		}
+
+		var brand = keystone.get('brand');
+
+		keystone.list('keystoneMccAdmin').model.find({isAdmin: true, recieveMccAffiliateNotifications: true}).exec(function (err, admins) {
+			if (err) reject(err);
+			new keystone.Email({
+				templateName: 'affiliate-registration-notification',
+				transport: 'mailgun',
+			}).send({
+				to: admins,
+				from: {
+					name: 'MCC',
+					email: 'contact@mycareerchoice.global',
+				},
+				subject: 'New Afilliate Registration for MCC',
+				affiliate,
+				brand,
+			}, (err)=>{
+				if (err) {
+					console.log(err);
+					reject(err);
+				}
+			});
+			resolve();
+		});
+	})
+};
+
+MccAffiliate.schema.methods.sendVerificationConfirmationMail = function () {
+	const affiliate = this;
+	return new Promise(function(resolve, reject) {
+		console.log("sending Verification Confirmation email");
+		if (!affiliate.isApproved) {
+			// console.log('Account is already activated');
+			reject(new Error('Account is not approved'));
+		} else {
+			if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
+				console.log('Unable to send email - no mailgun credentials provided');
+				reject(new Error('could not find mailgun credentials'));
+			}
+
+			const brandDetails = keystone.get('brandDetails');
+
+			new keystone.Email({
+				templateName: 'affiliate-verification-confirmation',
+				transport: 'mailgun',
+			}).send({
+				to: [affiliate.email],
+				from: {
+					name: 'MCC',
+					email: 'no-reply@mycarrerchoice.global',
+				},
+				subject: 'MCC Affiliate Verification',
+				affiliate,
+				brandDetails,
+			}, (err)=>{
+				if (err) {
+					console.log(err);
+					reject(err);
+				}
+			});
+			resolve();
+		}
+	});
+}
+
+MccAffiliate.schema.methods.sendActiveConfirmationMail = function () {
+	const affiliate = this;
+	return new Promise(function(resolve, reject) {
+		console.log("sending Activation Confirmation email");
+		if (!affiliate.isApproved) {
+			// console.log('Account is already activated');
+			reject(new Error('Account is not approved'));
+		} else {
+			if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
+				console.log('Unable to send email - no mailgun credentials provided');
+				reject(new Error('could not find mailgun credentials'));
+			}
+
+			const brandDetails = keystone.get('brandDetails');
+
+			new keystone.Email({
+				templateName: 'affiliate-active-confirmation',
+				transport: 'mailgun',
+			}).send({
+				to: [affiliate.email],
+				from: {
+					name: 'MCC',
+					email: 'no-reply@mycarrerchoice.global',
+				},
+				subject: 'MCC Affiliate Verification',
+				affiliate,
+				brandDetails,
+			}, (err)=>{
+				if (err) {
+					console.log(err);
+					reject(err);
+				}
+			});
+			resolve();
+		}
+	});
+}
+
+
 /**
  * Relationships
  */
-MccAffiliate.relationship({ ref: 'Payment', path: 'payments', refPath: 'madeBy' });
+MccAffiliate.relationship({ ref: 'MccCoupon', path: 'Coupon', refPath: 'affiliate' });
+// MccAffiliate.relationship({ ref: 'Payment', path: 'payments', refPath: 'madeBy' });
 
 
 /**
  * Registration
  */
-MccAffiliate.defaultColumns = 'name, phone, email';
+MccAffiliate.defaultColumns = 'name, phone, email, isApproved, isActive';
 MccAffiliate.register();

@@ -20,6 +20,7 @@ module.exports = {
       if (id) {
         if (createdAt && moment(createdAt).isAfter(moment().subtract(24, 'hours'))) {
           const user = await User.findOne({_id: id});
+          console.log(user);
           if (user.isActivated) {
             return Promise.reject('activated account')
           } else {
@@ -27,13 +28,17 @@ module.exports = {
             await user.save();
             const token = jwt.sign({
               id: user.id,
-              email: user.email,
-              type: 'User',
+              type: user.__t ? user.__t : 'User',
+              // email: user.email,
               //passwordVersion: user.passwordVersion,
             }, process.env.JWT_SECRET);
-            user.jwt = token;
-            context.user = Promise.resolve(user);
-            return user;
+            // user.jwt = token;
+            // context.user = Promise.resolve(user);
+            return {
+              name: user.name,
+              jwt: token,
+              userType:  user.__t || 'user'
+            };
           }
         } else {
           return Promise.reject('expired token')

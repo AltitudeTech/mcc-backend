@@ -47,7 +47,7 @@ GuestEnquiry.schema.methods.sendNotificationEmail = function () {
 
 		var brand = keystone.get('brand');
 
-		keystone.list('User').model.find({isAdmin: true, recieveGuestEnquiries: true}).exec(function (err, admins) {
+		keystone.list('keystoneMccAdmin').model.find({isAdmin: true, recieveMccGuestEnquiries: true}).exec(function (err, admins) {
 			if (err) reject(err);
 			new keystone.Email({
 				templateName: 'guest-enquiry-notification',

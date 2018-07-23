@@ -13,13 +13,13 @@ Referee.add({
 	name: { type: Types.Name, required: true, index: true },
 	phone: { type: Types.Text, initial: true, required: true},
 	// gender: {type: Types.Select, options: ['male','female'], initial: true},
-	gender: {type: Types.Select, options: GENDERS, initial: true},
+	// gender: {type: Types.Select, options: GENDERS, initial: true},
 	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
 	// password: { type: Types.Password, initial: true, required: true },
 	// passwordVersion: { type: Types.Text, initial: false, required: true, default: 1},
-	occupation: { type: Types.Text, initial: true},
-	relationship: { type: Types.Text, initial: true},
-	letter: { type: Types.Textarea, initial: true},
+	// occupation: { type: Types.Text, initial: true},
+	// relationship: { type: Types.Text, initial: true},
+	// letter: { type: Types.Textarea, initial: true},
 }, 'verification', {
 	isVerified: { type: Boolean, index: true },
 });
@@ -44,5 +44,5 @@ Referee.schema.pre('save', function (next) {
 /**
  * Registration
  */
-Referee.defaultColumns = 'name, phone, email, gender, relationship, isVerified';
+Referee.defaultColumns = 'name, phone, email, isVerified';
 Referee.register();

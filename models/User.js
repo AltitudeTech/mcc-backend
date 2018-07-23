@@ -15,6 +15,7 @@ User.add({
 	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
 	password: { type: Types.Password, initial: true, required: true },
 	passwordVersion: { type: Types.Text, initial: false, required: true, default: 1},
+	isActivated: { type: Boolean, default: false, noedit: true },
 });
 
 // Model Hooks

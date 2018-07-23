@@ -10,11 +10,11 @@ module.exports = () => {
     }
   );
   MccAffiliateTC.addRelation('coupon', {
-      resolver: () => MccCouponTC.getResolver('findById'),
+      resolver: () => MccCouponTC.getResolver('findOne'),
       prepareArgs: {
-        _id: (source) => source.coupon,
+        filter: (source) => ({ affiliate: source._id}),
       },
-      projection: { coupon: 1 },
+      projection: { affiliate: 1 },
     }
   );
 }

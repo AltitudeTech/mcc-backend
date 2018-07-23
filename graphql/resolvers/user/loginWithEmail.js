@@ -26,8 +26,8 @@ module.exports = {
               // create jwt
               const token = jwt.sign({
                 id: user._id,
-                // email: user.email,
                 type: user.__t ? user.__t : 'User',
+                // email: user.email,
                 //passwordVersion: user.passwordVersion,
               }, process.env.JWT_SECRET);
               resolve({

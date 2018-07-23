@@ -96,6 +96,7 @@ GQC.rootMutation().addFields({
 	// unsubscribeNewsletter: NewsletterSubscriberTC.getResolver('unsubscribe'),
 
 	loginUser: UserTC.getResolver('loginWithEmail'),
+	userActivateAccount: UserTC.getResolver('activateAccount'),
 
 	// unauthorized Candidate Mutations
 	candidateCreateAccount: CandidateTC.getResolver('createAccount'),

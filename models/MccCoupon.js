@@ -13,11 +13,12 @@ var MccCoupon = new keystone.List('MccCoupon', {
 
 MccCoupon.add({
   coupon: { type: Types.Text, required: true, index: true, initial: true },
+  affiliate: { type: Types.Relationship, ref: 'MccAffiliate', required: true, initial: true},
   description: { type: Types.Text, index: true, initial: true },
   isActive: { type: Types.Boolean, index: true, default: true}
 });
 
-MccCoupon.relationship({ ref: 'MccAffiliate', path: 'MCC Affiliates', refPath: 'coupon' });
+// MccCoupon.relationship({ ref: 'MccAffiliate', path: 'MCC Affiliates', refPath: 'coupon' });
 MccCoupon.relationship({ ref: 'Candidate', path: 'candidates', refPath: 'coupon' });
 
 /**
