@@ -14,6 +14,8 @@ Payment.add({
   createdAt: { type: Types.Datetime, index: true, default: Date.now(), noedit: true },
   paystackReference: { type: Types.Text, required: true, index: true, initial: true, unique: true },
   madeBy: { type: Types.Relationship, ref: 'User', many: false, required: true, initial: true },
+  coupon: { type: Types.Relationship, ref: 'MccCoupon', initial: true},
+  amount: { type: Types.Number, required: true, initial: true }
   // testCode: { type: Types.Relationship, ref: 'TestCode', required: true, initial: true, index: true },
 });
 

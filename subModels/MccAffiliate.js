@@ -14,14 +14,16 @@ const MccAffiliate = new keystone.List('MccAffiliate', {
 });
 
 MccAffiliate.add('MccAffiliate', {
-	firstName: { type: Types.Text, required: true, initial: true, index: true },
-	lastName: { type: Types.Text, required: true, initial: true, index: true },
-	phone: { type: Types.Text, initial: true, unique: true, sparse: true },
+	firstName: { type: Types.Text, required: false, initial: true, index: true },
+	lastName: { type: Types.Text, required: false, initial: true, index: true },
+	phone: { type: Types.Text, required: true, initial: true },
 	workAddress: { type: Types.Text, initial: true },
-	physicalAddress: { type: Types.Text, initial: true },
+	physicalAddress: { type: Types.Text, initial: true, required: true },
 	// coupon: { type: Types.Relationship, ref: 'MccCoupon', required: false, initial: true},
-	referee1: { type: Types.Relationship, ref: 'Referee', index: true},
-	referee2: { type: Types.Relationship, ref: 'Referee', index: true},
+	referee1name: { type: Types.Text, required: true, initial: true, noedit: true },
+	referee1phone: { type: Types.Text, required: true, initial: true, noedit: true },
+	referee2name: { type: Types.Text, required: true, initial: true, noedit: true },
+	referee2phone: { type: Types.Text, required: true, initial: true, noedit: true },
 	comments: { type: Types.Html, wysiwyg: true, height: 250 },
 }, 'Status', {
 	isActivated: { type: Boolean, default: false, noedit: true, label: 'email is confirmed' },
@@ -33,12 +35,15 @@ MccAffiliate.add('MccAffiliate', {
 MccAffiliate.schema.pre('save',async function (next) {
 	if (this.firstName) this.firstName = toCamelCase(this.firstName);
 	if (this.lastName) this.lastName = toCamelCase(this.lastName);
-	this.name = `${this.lastName} ${this.firstName}`
+	// this.name = `${this.lastName} ${this.firstName}`
 	if (this.isModified("isApproved")) {
 		if (this.isApproved) this.sendVerificationConfirmationMail()
 	}
 	if (this.isModified("isActive")) {
-		if (this.isActive) this.sendActiveConfirmationMail()
+		if (this.isActive) {
+			this.sendActiveConfirmationMail()
+			//TODO generate MccCoupon
+		}
 	}
 	next();
 })
