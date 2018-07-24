@@ -31,6 +31,11 @@ const privateUserFields = [
   'password', 'passwordVersion','isAdmin'
 ]
 
+const privateNoeditUserFields = [
+  'password', 'passwordVersion','isAdmin', 'createdAt', 'createdBy', 'updatedAt',
+  'updatedBy', 'isActivated'
+]
+
 const UserTCOptions = {
   fields : {
     remove: ['password', 'passwordVersion','isAdmin']
@@ -39,7 +44,7 @@ const UserTCOptions = {
     updateById: {
       record: {
         removeFields: [
-          'phone', 'password','passwordVersion'
+          ...privateNoeditUserFields
         ]
       }
     }
@@ -55,7 +60,7 @@ const CandidateTCOptions = {
     updateById: {
       record: {
         removeFields: [
-          'phone', 'password','passwordVersion','isActivated'
+          ...privateNoeditUserFields
         ]
       }
     }
@@ -64,14 +69,15 @@ const CandidateTCOptions = {
 const MccAffiliateTCOptions = {
   fields:{
     remove: [
-      'password', 'passwordVersion'
+      'password', 'passwordVersion', 'comments'
      ]
   },
   resolvers:{
     updateById: {
       record: {
         removeFields: [
-          'phone', 'password','passwordVersion','isActivated'
+          ...privateNoeditUserFields, 'email', 'isApproved', 'isActive',
+          'comments', 'firstName', 'lastName'
         ]
       }
     }

@@ -18,4 +18,5 @@ module.exports = addResolvers = () => {
   newsletterSubscriberResolvers();
   priceResolvers();
   // AdminResolvers();
+  require('./affiliate')();
 }

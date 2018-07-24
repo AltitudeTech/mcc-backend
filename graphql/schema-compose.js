@@ -42,6 +42,7 @@ const {
 	GuestEnquiryTC,
 	NewsletterSubscriberTC,
 	ViewerMccAffiliateTC,
+	MccAffiliateTC,
 	PriceTC
 } = typeComposers;
 
@@ -106,6 +107,7 @@ GQC.rootMutation().addFields({
 	institutionCreateAccount: InstitutionTC.getResolver('createAccount'),
 	institutionActivateAccount: InstitutionTC.getResolver('activateAccount'),
 
+	affiliateCreateAccount: MccAffiliateTC.getResolver('createAccount'),
 	// loginAdmin: AdminTC.getResolver('loginWithPhone'),
 	// signUpAdmin: AdminTC.getResolver('signUp'),
 
@@ -119,6 +121,10 @@ GQC.rootMutation().addFields({
 		institutionResendActivationLink: UserTC.getResolver('sendUserActivationLink'),
 		institutionUpdateSelf: updateSelf({TC: InstitutionTC}),
 		// institutionFindOrCreatePaymentRecord: PaymentTC.getResolver('findOrCreatePayment'),
+	}),
+	...authAccess({sourceUserType: 'MccAffiliate'}, {
+		affiliateResendActivationLink: UserTC.getResolver('sendUserActivationLink'),
+		affiliateUpdateSelf: updateSelf({TC: MccAffiliateTC}),
 	}),
 //	...authAccess({sourceUserType: 'Admin'}, {
 		// addCandidateDocument: createManagedRelationship( 'documentsUploaded', CandidateDocumentTC, 'Candidate'),
