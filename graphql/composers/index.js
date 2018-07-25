@@ -153,6 +153,19 @@ const NewsletterSubscriberTCTCOptions = {
   }
 };
 
+// const MccCouponTCOptions = {
+//   // fields:{
+//   //   remove: NSTCOpts
+//   // },
+//   resolvers:{
+//     createOne: {
+//       record: {
+//         removeFields: NSTCOpts
+//       }
+//     }
+//   }
+// };
+
 /**
 * Exports
 */

@@ -29,7 +29,7 @@ module.exports = {
               //possible Error - connect ETIMEDOUT 104.16.6.25:443
               reject(error)
             }
-            // console.log(body);
+            // console.log(body.data.metadata);
             if (body.status){
               if (body.data.status=="success") {
                 //find code and add to payment

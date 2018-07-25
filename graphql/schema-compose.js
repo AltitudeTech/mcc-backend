@@ -43,7 +43,8 @@ const {
 	NewsletterSubscriberTC,
 	ViewerMccAffiliateTC,
 	MccAffiliateTC,
-	PriceTC
+	PriceTC,
+	MccCouponTC
 } = typeComposers;
 
 //Add relationships and resolvers to schema
@@ -61,6 +62,7 @@ GQC.rootQuery().addFields({
 	...authAccess({sourceUserType: 'Candidate'}, {
 		candidateIsAuthenticated: UserTC.getResolver('isAuthenticated'),
     viewerCandidate: ViewerCandidateTC.getResolver('candidateAccess'),
+		candidateFindCoupon: MccCouponTC.getResolver('findCoupon')
 	}),
 	...authAccess({sourceUserType: 'Candidate', isActivated: true}, {
     isActivatedViewerCandidate: ViewerCandidateTC.getResolver('candidateAccess'),
@@ -124,6 +126,8 @@ GQC.rootMutation().addFields({
 	}),
 	...authAccess({sourceUserType: 'MccAffiliate'}, {
 		affiliateResendActivationLink: UserTC.getResolver('sendUserActivationLink'),
+		affiliateCreateCoupon: MccAffiliateTC.getResolver('createCoupon'),
+		// affiliateCreateCoupon: createModelWithReference({TC: MccCouponTC, refPath: 'affiliate'}),
 		affiliateUpdateSelf: updateSelf({TC: MccAffiliateTC}),
 	}),
 //	...authAccess({sourceUserType: 'Admin'}, {

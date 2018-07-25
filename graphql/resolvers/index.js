@@ -19,4 +19,5 @@ module.exports = addResolvers = () => {
   priceResolvers();
   // AdminResolvers();
   require('./affiliate')();
+  require('./coupon')();
 }

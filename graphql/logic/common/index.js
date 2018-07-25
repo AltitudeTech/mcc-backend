@@ -22,3 +22,5 @@ exports.createManagedRelationship = require('./createManagedRelationship')
 exports.deleteManagedRelationship = require('./deleteManagedRelationship')
 
 exports.createModelRelationship = require('./createModelRelationship')
+
+exports.createModelWithReference = require('./createModelWithReference')
