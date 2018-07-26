@@ -26,9 +26,7 @@ module.exports = {
         const newMccCoupon = new MccCoupon({
           coupon,
           discount: 10,
-          affiliate: sourceUser._id,
-          // expiriesAt: Date.now()
-          isActive: true
+          affiliate: sourceUser._id
         })
         return newMccCoupon.save().then((coupon)=>{
           // const { id, coupon } = coupon;

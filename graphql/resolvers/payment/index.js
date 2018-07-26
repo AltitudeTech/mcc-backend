@@ -6,4 +6,5 @@ module.exports = () => {
 
   // Mutations
   PaymentTC.addResolver(require('./findOrCreatePayment'));
+  PaymentTC.addResolver(require('./findOrCreatePaymentV2'));
 }

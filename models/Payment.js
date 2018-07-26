@@ -12,10 +12,13 @@ var Payment = new keystone.List('Payment', {
 Payment.add({
   // name: { type: Types.Text, required: true, index: true },
   createdAt: { type: Types.Datetime, index: true, default: Date.now(), noedit: true },
+  transactionDate: { type: Types.Datetime, index: true, noedit: true },
   paystackReference: { type: Types.Text, required: true, index: true, initial: true, unique: true },
   madeBy: { type: Types.Relationship, ref: 'User', many: false, required: true, initial: true },
   coupon: { type: Types.Relationship, ref: 'MccCoupon', initial: true},
-  amount: { type: Types.Number, required: true, initial: true }
+  // affiliateId: { type: Types.Relationship, ref: 'User', initial: true },
+  amount: { type: Types.Number, required: true, initial: true },
+  currency: { type: Types.Text, required: false, initial: true },
   // testCode: { type: Types.Relationship, ref: 'TestCode', required: true, initial: true, index: true },
 });
 
